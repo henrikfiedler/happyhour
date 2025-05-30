@@ -1,5 +1,7 @@
 <script lang="ts">
+
 	import TargetEntryTableComponent from '$lib/components/TargetEntryTableComponent.svelte';
+	import AreaChart from '$lib/components/charts/AreaChart.svelte';
 	import type { PageData } from './$types';
 	import * as Form from '$lib/components/ui/form';
 	import SuperDebug from 'sveltekit-superforms';
@@ -33,6 +35,7 @@
 <p>
 	Ende: <LocalDateComponent date={data.target?.endDate} />
 </p>
+
 
 <Separator class="my-3"></Separator>
 
@@ -73,3 +76,6 @@
 <SuperDebug data={$formData} display={false} />
 
 <TargetEntryTableComponent targetEntries={data.targetEntries} />
+
+<AreaChart></AreaChart>
+
