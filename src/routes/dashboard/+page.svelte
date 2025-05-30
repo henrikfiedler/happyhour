@@ -70,7 +70,7 @@
 		<Button type="submit">Speichern</Button>
 	</form>
 
-	<SuperDebug data={$formData} />
+	<SuperDebug data={$formData} display={false} />
 {:else}
 	<p>You are not logged in.</p>
 {/if}
