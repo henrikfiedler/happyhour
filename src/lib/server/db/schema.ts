@@ -1,9 +1,10 @@
-import { pgTable, text, timestamp, serial, boolean, integer, char, uuid, decimal, pgEnum } from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, serial, boolean, integer, char, uuid, decimal, pgEnum, real } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 import type { InferInsertModel, InferSelectModel } from "drizzle-orm";
+import { createInsertSchema } from "drizzle-zod";
 
 export const userTable = pgTable("user", {
-	id: serial("id").primaryKey(),
+	id: uuid("id").primaryKey().defaultRandom(),
 	email: char('email', { length: 255 }).unique().notNull(),
 	passwordHash: text("password_hash").notNull(),
 	createdAt: timestamp("created_at", {
@@ -21,7 +22,7 @@ export const usersRelations = relations(userTable, ({ many }) => ({
 
 export const sessionTable = pgTable("session", {
 	id: text("id").primaryKey(),
-	userId: integer("user_id")
+	userId: uuid("user_id")
 		.notNull()
 		.references(() => userTable.id),
 	expiresAt: timestamp("expires_at", {
@@ -40,8 +41,8 @@ export const targetTypeEnum = pgEnum('target_type', ['billableHours']);
 export const targetUnitEnum = pgEnum('target_unit', ['hours']);
 
 export const targetTable = pgTable("target", {
-	id: uuid("id").primaryKey(),
-	userId: integer("user_id")
+	id: uuid("id").primaryKey().defaultRandom(),
+	userId: uuid("user_id")
 		.notNull()
 		.references(() => userTable.id),
 	startDate: timestamp("start_date", {
@@ -51,7 +52,7 @@ export const targetTable = pgTable("target", {
 		withTimezone: true,
 	}).notNull(),
 	targetType: targetTypeEnum("target_type").notNull().default('billableHours'),
-	value: decimal("value").notNull(),
+	targetValue: real("target_value").notNull(),
 	targetUnit: targetUnitEnum("target_unit").notNull().default('hours'),
 	createdAt: timestamp("created_at", {
 		withTimezone: true,
@@ -71,3 +72,5 @@ export const targetRelations = relations(targetTable, ({ one }) => ({
 export type DBUser = InferSelectModel<typeof userTable>;
 export type DBSession = InferSelectModel<typeof sessionTable>;
 export type DBTarget = InferSelectModel<typeof targetTable>;
+
+export const targetInsertSchema = createInsertSchema(targetTable)

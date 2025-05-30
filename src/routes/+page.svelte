@@ -1,4 +1,5 @@
 <script>
+	import { enhance } from '$app/forms';
 	import { Button } from '$lib/components/ui/button';
 </script>
 
@@ -9,4 +10,7 @@
 		<Button href="/login">Login</Button>
 		<Button href="/register">Register</Button>
 	</p>
+	<form method="post" use:enhance>
+		<Button type="submit">Logout</Button>
+	</form>
 </div>
