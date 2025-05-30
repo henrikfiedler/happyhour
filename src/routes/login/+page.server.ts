@@ -1,8 +1,11 @@
 import type { PageServerLoad } from './$types';
-import { superValidate } from 'sveltekit-superforms';
+import { superValidate, setError, fail } from 'sveltekit-superforms';
 import { formSchema } from './schema';
 import { zod } from "sveltekit-superforms/adapters";
-import { fail } from '@sveltejs/kit';
+import { redirect } from '@sveltejs/kit';
+import { getUserFromEmail } from '$lib/server/auth/user';
+import { verifyPasswordHash } from '$lib/server/auth/password';
+import { createSession, generateSessionToken, setSessionTokenCookie } from '$lib/server/auth/session';
 
 export const load = (async () => {
     return {
@@ -11,8 +14,8 @@ export const load = (async () => {
 }) satisfies PageServerLoad;
 
 export const actions = {
-    default: async ({ request }) => {
-        const form = await superValidate(request, zod(formSchema));
+    default: async (event) => {
+        const form = await superValidate(event, zod(formSchema));
 
         if (!form.valid) {
             return fail(400, {
@@ -20,15 +23,25 @@ export const actions = {
             });
         }
 
-        /* if (error) {
+        const user = await getUserFromEmail(form.data.email);
+
+        /* if (!user) {
             return fail(400, {
                 form,
-                message: 'Signin successful',
-				redirect: '/dashboard'
-            }
-            );
+                message: "Account does not exist"
+            });
         } */
 
-        return { form };
+        const validPassword = user?.passwordHash ? await verifyPasswordHash(user.passwordHash, form.data.password) : false;
+        if (!validPassword || !user?.id) {
+            setError(form, 'email', '');
+            return setError(form, 'password', 'Invalid password or e-mail.');
+        }
+
+        const sessionToken = generateSessionToken();
+        const session = await createSession(sessionToken, user.id);
+        setSessionTokenCookie(event, sessionToken, session.expiresAt);
+
+        throw redirect(303, '/dashboard');
     },
 };

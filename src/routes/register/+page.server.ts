@@ -1,8 +1,10 @@
-import type { PageServerLoad } from './$types';
-import { superValidate } from 'sveltekit-superforms';
+import type { PageServerLoad, Actions } from './$types';
+import { superValidate, fail } from 'sveltekit-superforms';
 import { formSchema } from './schema';
 import { zod } from "sveltekit-superforms/adapters";
-import { fail } from '@sveltejs/kit';
+import { redirect } from '@sveltejs/kit';
+import { createUser } from '$lib/server/auth/user';
+import { createSession, generateSessionToken, setSessionTokenCookie } from '$lib/server/auth/session';
 
 
 export const load = (async () => {
@@ -12,9 +14,9 @@ export const load = (async () => {
 }) satisfies PageServerLoad;
 
 export const actions = {
-    default: async ({ request }) => {
+    default: async (event) => {
         // const formData = await request.formData();
-        const form = await superValidate(request, zod(formSchema));
+        const form = await superValidate(event, zod(formSchema));
 
         if (!form.valid) {
             return fail(400, {
@@ -22,13 +24,15 @@ export const actions = {
             })
         }
 
-        /* if (error) {
-            return fail(400, {
-                form
-            }
-            );
-        } */
+        const user = await createUser(
+            form.data.email,
+            form.data.password
+        );
 
-        return { form };
+        const sessionToken = generateSessionToken();
+        const session = await createSession(sessionToken, user.id);
+        setSessionTokenCookie(event, sessionToken, session.expiresAt);
+
+        throw redirect(303, '/dashboard');
     },
-};
+} satisfies Actions;
