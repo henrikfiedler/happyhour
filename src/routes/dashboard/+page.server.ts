@@ -1,7 +1,7 @@
 import { redirect } from '@sveltejs/kit';
 import type { PageServerLoad, Actions } from './$types';
 import { deleteSessionTokenCookie, invalidateSession } from '$lib/server/auth/session';
-import { fail, superValidate } from 'sveltekit-superforms';
+import { fail, setError, superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import { targetInsertSchema } from '$lib/schemas';
 import { targetTable } from '$lib/server/db/schema';
@@ -40,6 +40,11 @@ export const actions = {
             return fail(400, {
                 form,
             })
+        }
+
+        if (form.data.startDate > form.data.endDate) {
+            setError(form, 'startDate', 'Start date must be before end date.');
+            return setError(form, 'endDate', 'Start date must be before end date.');
         }
 
         const [target] = await db.insert(targetTable)

@@ -2,7 +2,6 @@
 import z from 'zod';
 
 const targetInsertSchema = z.object({
-//   userId: z.number().int(),
   startDate: z.coerce.date(),
   endDate: z.coerce.date(),
   targetType: z.enum(['billableHours']).default('billableHours'),
@@ -12,4 +11,12 @@ const targetInsertSchema = z.object({
   updatedAt: z.date().optional()
 });
 
-export { targetInsertSchema }
+const targetEntryInsertSchema = z.object({
+  startDate: z.coerce.date(),
+  endDate: z.coerce.date(),
+  entryValue: z.number().positive(),
+  createdAt: z.date().optional(),
+  updatedAt: z.date().optional()
+});
+
+export { targetInsertSchema, targetEntryInsertSchema };
