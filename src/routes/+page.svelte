@@ -1,6 +1,16 @@
+<script>
+	import { enhance } from '$app/forms';
+	import { Button } from '$lib/components/ui/button';
+</script>
+
 <div class="container">
-    <h1>Welcome to SvelteKit</h1>
-    <p>
-        Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation
-    </p>
+	<h1>HappyHour</h1>
+
+	<p>
+		<Button href="/login">Login</Button>
+		<Button href="/register">Register</Button>
+	</p>
+	<form method="post" use:enhance>
+		<Button type="submit">Logout</Button>
+	</form>
 </div>

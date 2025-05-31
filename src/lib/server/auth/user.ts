@@ -1,7 +1,8 @@
 import { eq } from "drizzle-orm";
 import { db } from "../db";
-import { userTable, type User } from "../db/schema";
+import { userTable } from "../db/schema";
 import { hashPassword } from "./password";
+import type { User } from "$lib/types";
 
 
 export async function createUser(email: string, password: string): Promise<User> {

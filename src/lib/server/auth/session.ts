@@ -1,5 +1,5 @@
 import { sessionTable } from "../db/schema";
-import type { User, Session } from "../db/schema";
+import type { User, Session } from "$lib/types";
 import { encodeBase32LowerCaseNoPadding, encodeHexLowerCase } from "@oslojs/encoding";
 import { sha256 } from "@oslojs/crypto/sha2";
 import { db } from "../db";
@@ -34,7 +34,14 @@ export async function validateSessionToken(token: string): Promise<SessionValida
     const result = await db.query.sessionTable.findFirst({
         where: eq(sessionTable.id, sessionId),
         with: {
-            user: true
+            user: {
+                columns: {
+                    id: true,
+                    email: true,
+                    createdAt: true,
+                    updatedAt: true,
+                }
+            }
         }
     });
 
@@ -61,11 +68,7 @@ WHERE session.id = ?
         expiresAt: result.expiresAt
     }
 
-    const user: User = {
-        id: result.user.id,
-        email: result.user.email,
-        passwordHash: result.user.passwordHash,
-    }
+    const user: User = result.user
 
     if (Date.now() >= session.expiresAt.getTime()) {
         invalidateSession(sessionId);
