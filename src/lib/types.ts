@@ -9,8 +9,16 @@ export type Session = DBSession
 export type Target = DBTarget
 export type TargetEntry = DBTargetEntry
 
+
 export type TargetEntryComparison = {
     date: Date;
     actual: number;
     planned: number;
 }
+
+export type TNavUser = {
+		// name: string;
+		email: string;
+		avatar: string;
+	};
+
