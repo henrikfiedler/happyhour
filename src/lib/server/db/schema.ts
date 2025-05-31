@@ -45,12 +45,9 @@ export const targetTable = pgTable("target", {
 	userId: uuid("user_id")
 		.notNull()
 		.references(() => userTable.id),
-	startDate: timestamp("start_date", {
-		withTimezone: true,
-	}).notNull(),
-	endDate: timestamp("end_date", {
-		withTimezone: true,
-	}).notNull(),
+	description: text("description").notNull(),
+	startDate: date("start_date", { mode: "date" }).notNull(),
+	endDate: date("end_date", { mode: "date" }).notNull(),
 	targetType: targetTypeEnum("target_type").notNull().default('billableHours'),
 	targetValue: real("target_value").notNull(),
 	targetUnit: targetUnitEnum("target_unit").notNull().default('hours'),

@@ -1,7 +1,9 @@
 // import { targetInsertSchema } from '$lib/server/db/schema';
+import { desc } from 'drizzle-orm';
 import z from 'zod';
 
 const targetInsertSchema = z.object({
+  description: z.string().min(1).max(255),
   startDate: z.coerce.date(),
   endDate: z.coerce.date(),
   targetType: z.enum(['billableHours']).default('billableHours'),
