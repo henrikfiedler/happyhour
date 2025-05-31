@@ -8,3 +8,9 @@ export type User = Omit<DBUser, "passwordHash">;
 export type Session = DBSession
 export type Target = DBTarget
 export type TargetEntry = DBTargetEntry
+
+export type TNavUser = {
+		// name: string;
+		email: string;
+		avatar: string;
+	};
