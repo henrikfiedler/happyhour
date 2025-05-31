@@ -3,19 +3,13 @@
 	import { scaleUtc } from 'd3-scale';
 	import { curveNatural } from 'd3-shape';
 	import * as Chart from '$lib/components/ui/chart';
+	import type { TargetEntryComparison } from '$lib/types';
 
-	const chartData = [
-		{ date: new Date('2024-01-01'), value: 186, baseline: 80 },
-		{ date: new Date('2024-02-01'), value: 305, baseline: 200 },
-		{ date: new Date('2024-03-01'), value: 237, baseline: 120 },
-		{ date: new Date('2024-04-01'), value: 73, baseline: 190 },
-		{ date: new Date('2024-05-01'), value: 209, baseline: 130 },
-		{ date: new Date('2024-06-01'), value: 214, baseline: 140 }
-	];
+	let { chartData }: { chartData: TargetEntryComparison[] } = $props();
 
 	const chartConfig = {
-		value: { label: 'Ist', color: 'var(--chart-1)' },
-		baseline: { label: 'Soll', color: 'var(--chart-2)' }
+		actual: { label: 'Ist', color: 'var(--chart-1)' },
+		planned: { label: 'Soll', color: 'var(--chart-2)' }
 	} satisfies Chart.ChartConfig;
 </script>
 
@@ -27,14 +21,14 @@
 		axis="x"
 		series={[
 			{
-				key: 'value',
+				key: 'actual',
 				label: 'Ist',
-				color: chartConfig.value.color
+				color: chartConfig.actual.color
 			},
 			{
-				key: 'baseline',
+				key: 'planned',
 				label: 'Soll',
-				color: chartConfig.baseline.color
+				color: chartConfig.planned.color
 			}
 		]}
 		props={{
@@ -42,7 +36,7 @@
 				curve: curveNatural,
 				'fill-opacity': 0.3,
 				line: { class: 'stroke-1' },
-				motion: 'tween',
+				motion: 'tween'
 			},
 			xAxis: {
 				format: (v: Date) => v.toLocaleDateString(undefined, { month: '2-digit', year: '2-digit' })
@@ -54,7 +48,7 @@
 			<Chart.Tooltip
 				labelFormatter={(v: Date) => {
 					return v.toLocaleDateString(undefined, {
-						month: 'long'
+						dateStyle: 'long'
 					});
 				}}
 				indicator="line"

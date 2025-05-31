@@ -37,6 +37,16 @@
 	<TargetTableComponent targets={data.targets} />
 
 	<form method="POST" use:enhance>
+		<Form.Field {form} name="description">
+			<Form.Control>
+				{#snippet children({ props })}
+					<Form.Label>Bezeichnung</Form.Label>
+					<Input {...props} bind:value={$formData.description} />
+				{/snippet}
+			</Form.Control>
+			<Form.Description />
+			<Form.FieldErrors />
+		</Form.Field>
 		<Form.Field {form} name="startDate">
 			<Form.Control>
 				{#snippet children({ props })}
