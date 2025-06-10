@@ -1,24 +1,43 @@
 import type { DBUser, DBSession, DBTarget, DBTargetEntry } from "./server/db/schema";
 
-type PickPartial<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
+// type PickPartial<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
+type PickPartial<T, K extends keyof T> = {[P in K]: Partial<T[P]>};
 
 export type OrderByType = "asc" | "desc";
 
 export type User = Omit<DBUser, "passwordHash">;
+export type AuthUser = PickPartial<DBUser, 'id' | 'email' | 'createdAt' | 'updatedAt'>
 export type Session = DBSession
 export type Target = DBTarget
 export type TargetEntry = DBTargetEntry
 
 
 export type TargetEntryComparison = {
-    date: Date;
-    actual: number;
-    planned: number;
+	date: Date;
+	planned: number;
+	actual: number | null;
 }
 
 export type TNavUser = {
-		// name: string;
-		email: string;
-		avatar: string;
-	};
+	// name: string;
+	email: string;
+	avatar: string;
+};
 
+export type NavActiveType = 'include' | 'exact';
+
+export type NavBuildItem = {
+	title: string;
+	url: string;
+	icon: any; // This should be `Component` after @lucide/svelte updates types
+	activeType?: NavActiveType;
+	items?: NavBuildItem[];
+}
+
+export type NavItem = {
+	title: string;
+	url: string;
+	icon: any; // This should be `Component` after @lucide/svelte updates types
+	isActive?: boolean;
+	items?: NavItem[];
+};

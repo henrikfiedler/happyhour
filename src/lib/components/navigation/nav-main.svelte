@@ -1,11 +1,12 @@
 <script lang="ts">
-	import * as Collapsible from "$lib/components/ui/collapsible/index.js";
-	import * as Sidebar from "$lib/components/ui/sidebar/index.js";
-	import ChevronRightIcon from "@lucide/svelte/icons/chevron-right";
+	import * as Collapsible from '$lib/components/ui/collapsible/index.js';
+	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
+	import type { NavItem } from '$lib/types';
+	import ChevronRightIcon from '@lucide/svelte/icons/chevron-right';
 
 	let {
-		items,
-	}: {
+		items
+	}: /* {
 		items: {
 			title: string;
 			url: string;
@@ -16,19 +17,21 @@
 			items?: {
 				title: string;
 				url: string;
+				isActive?: boolean;
 			}[];
 		}[];
-	} = $props();
+	}  */
+	{ items: NavItem[] } = $props();
 </script>
 
 <Sidebar.Group>
-	<Sidebar.GroupLabel>Platform</Sidebar.GroupLabel>
+	<!-- <Sidebar.GroupLabel>Ziele</Sidebar.GroupLabel> -->
 	<Sidebar.Menu>
 		{#each items as mainItem (mainItem.title)}
 			<Collapsible.Root open={mainItem.isActive}>
 				{#snippet child({ props })}
 					<Sidebar.MenuItem {...props}>
-						<Sidebar.MenuButton tooltipContent={mainItem.title}>
+						<Sidebar.MenuButton tooltipContent={mainItem.title} isActive={mainItem.isActive}>
 							{#snippet child({ props })}
 								<a href={mainItem.url} {...props}>
 									<mainItem.icon />
@@ -39,10 +42,7 @@
 						{#if mainItem.items?.length}
 							<Collapsible.Trigger>
 								{#snippet child({ props })}
-									<Sidebar.MenuAction
-										{...props}
-										class="data-[state=open]:rotate-90"
-									>
+									<Sidebar.MenuAction {...props} class="data-[state=open]:rotate-90">
 										<ChevronRightIcon />
 										<span class="sr-only">Toggle</span>
 									</Sidebar.MenuAction>
@@ -52,7 +52,7 @@
 								<Sidebar.MenuSub>
 									{#each mainItem.items as subItem (subItem.title)}
 										<Sidebar.MenuSubItem>
-											<Sidebar.MenuSubButton href={subItem.url}>
+											<Sidebar.MenuSubButton href={subItem.url} isActive={subItem.isActive}>
 												<span>{subItem.title}</span>
 											</Sidebar.MenuSubButton>
 										</Sidebar.MenuSubItem>

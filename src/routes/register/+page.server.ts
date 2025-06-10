@@ -33,6 +33,6 @@ export const actions = {
         const session = await createSession(sessionToken, user.id);
         setSessionTokenCookie(event, sessionToken, session.expiresAt);
 
-        throw redirect(303, '/dashboard');
+        return redirect(303, '/targets');
     },
 } satisfies Actions;

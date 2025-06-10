@@ -39,7 +39,7 @@
 				motion: 'tween'
 			},
 			xAxis: {
-				format: (v: Date) => v.toLocaleDateString(undefined, { month: '2-digit', year: '2-digit' })
+				format: (v: Date) => v.toLocaleDateString(undefined, { dateStyle: 'short' })
 			},
 			highlight: { points: { r: 4 } }
 		}}

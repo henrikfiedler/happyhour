@@ -7,7 +7,8 @@ export const load = (async () => {
 }) satisfies PageServerLoad;
 
 export const actions = {
-    /* default: async (event) => {
+    default: async (event) => {
+        console.log("🚀 ~ default: ~ event:", event)
         if (event.locals.session === null) {
             return fail(401, {
                 message: "Not authenticated"
@@ -16,5 +17,5 @@ export const actions = {
         invalidateSession(event.locals.session.id);
         deleteSessionTokenCookie(event);
         return redirect(302, "/login");
-    } */
+    }
 } satisfies Actions;

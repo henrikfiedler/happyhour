@@ -15,7 +15,7 @@
 	import NavProjects from './nav-projects.svelte';
 	import NavSecondary from './nav-secondary.svelte';
 	import NavUser from './nav-user.svelte';
-	import type { TNavUser } from '$lib/types';
+	import type { AuthUser, NavItem, TNavUser, User } from '$lib/types';
 	import * as Sidebar from '$lib/components/ui/sidebar';
 	import CommandIcon from '@lucide/svelte/icons/command';
 	import type { ComponentProps } from 'svelte';
@@ -23,19 +23,19 @@
 	import NavSettings from './nav-settings.svelte';
 
 	type NavData = {
-		navMain: {
+		navMain: /* {
 			title: string;
 			url: string;
 			icon: any; // Lucide icon component
 			isActive?: boolean;
 			items?: { title: string; url: string }[];
-		}[];
-		navSettings: {
+		} */ NavItem[];
+		navSettings: /* {
 			title: string;
 			url: string;
 			icon: any; // Lucide icon component
 			items?: { title: string; url: string }[];
-		}[];
+		} */ NavItem[];
 	};
 
 	let {
@@ -43,7 +43,7 @@
 		data,
 		user,
 		...restProps
-	}: ComponentProps<typeof Sidebar.Root> & { data: NavData } & { user: TNavUser } = $props();
+	}: ComponentProps<typeof Sidebar.Root> & { data: NavData } & { user: AuthUser | null } = $props();
 
 	const sampleData = {
 		user: {
@@ -223,7 +223,7 @@
 			<Sidebar.MenuItem>
 				<Sidebar.MenuButton size="lg">
 					{#snippet child({ props })}
-						<a href="##" {...props}>
+						<a href="/" {...props}>
 							<div
 								class="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg"
 							>
@@ -241,7 +241,7 @@
 	</Sidebar.Header>
 	<Sidebar.Content>
 		<NavMain items={data.navMain} />
-		<NavSettings items={data.navSettings} />
+		<!-- <NavSettings items={data.navSettings} /> -->
 		<!-- <NavProjects projects={data.projects} /> -->
 		<!-- <NavSecondary items={data.navSecondary} class="mt-auto" /> -->
 	</Sidebar.Content>

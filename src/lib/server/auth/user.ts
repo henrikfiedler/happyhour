@@ -4,8 +4,24 @@ import { userTable } from "../db/schema";
 import { hashPassword } from "./password";
 import type { User } from "$lib/types";
 
+import { redirect } from '@sveltejs/kit';
+import { getRequestEvent } from '$app/server';
 
-export async function createUser(email: string, password: string): Promise<User> {
+export function requireLogin() {
+    const { locals, url } = getRequestEvent();
+
+    // assume `locals.user` is populated in `handle`
+    if (!locals.user) {
+        const redirectTo = url.pathname + url.search;
+        const params = new URLSearchParams({ redirectTo });
+
+        redirect(307, `/login?${params}`);
+    }
+
+    return locals.user;
+}
+
+export async function createUser(email: string, password: string) {
     const passwordHash = await hashPassword(password);
 
     const [user] = await db.insert(userTable).values({
@@ -31,7 +47,7 @@ export async function createUser(email: string, password: string): Promise<User>
     return user;
 }
 
-export async function getUserFromEmail(email: string): Promise<User | undefined> {
+export async function getUserFromEmail(email: string) {
     const user = await db.query.userTable.findFirst({
         where: eq(userTable.email, email),
     })

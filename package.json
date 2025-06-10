@@ -68,6 +68,7 @@
 		"@oslojs/encoding": "^1.1.0",
 		"@oslojs/webauthn": "^1.0.0",
 		"@pilcrowjs/object-parser": "^0.0.4",
+		"date-holidays": "^3.24.3",
 		"drizzle-orm": "^0.40.0",
 		"drizzle-zod": "^0.5.1",
 		"postgres": "^3.4.5"
