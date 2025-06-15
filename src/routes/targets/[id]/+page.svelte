@@ -1,7 +1,7 @@
 <script lang="ts">
-	import AreaChart from '$lib/components/charts/AreaChart.svelte';
+	import AreaChart from '$lib/components/charts/area-chart.svelte';
 	import type { PageData } from './$types';
-	import LocalDateComponent from '$lib/components/LocalDateComponent.svelte';
+	import LocalDateComponent from '$lib/components/local-date-component.svelte';
 	import { Separator } from '$lib/components/ui/separator';
 	import type { TargetEntryComparison } from '$lib/types';
 	import * as Card from '$lib/components/ui/card';
