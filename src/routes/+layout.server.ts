@@ -24,7 +24,6 @@ export const load = (async (event) => {
             await getUserFavoriteTarget(event.locals.user)
             : undefined;
 
-    console.log("🚀 ~ load ~ currentTarget:", currentTarget)
     return {
         user: event.locals.user,
         currentTarget

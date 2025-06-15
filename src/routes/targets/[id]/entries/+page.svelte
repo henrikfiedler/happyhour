@@ -1,5 +1,4 @@
 <script lang="ts">
-	import TargetEntryTableComponent from '$lib/components/TargetEntryTableComponent.svelte';
 	import { Input } from '$lib/components/ui/input';
 	import SuperDebug, { dateProxy, superForm } from 'sveltekit-superforms';
 	import type { PageData } from './$types';
@@ -7,6 +6,8 @@
 	import { targetEntryInsertSchema } from '$lib/schemas';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import { Button } from '$lib/components/ui/button';
+	import TargetEntryDataTable from '$lib/components/target-entry-data-table.svelte';
+	import { Separator } from '$lib/components/ui/separator';
 
 	let { data }: { data: PageData } = $props();
 	const form = superForm(data.form, {
@@ -73,4 +74,8 @@
 
 <SuperDebug data={$formData} display={false} />
 
-<TargetEntryTableComponent targetEntries={data.targetEntries} />
+<Separator class="my-5"></Separator>
+
+<!-- <TargetEntryTableComponent targetEntries={data.targetEntries} /> -->
+
+<TargetEntryDataTable targetEntries={data.targetEntries}></TargetEntryDataTable>

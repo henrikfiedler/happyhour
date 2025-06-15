@@ -2,7 +2,7 @@
 	import * as Table from '$lib/components/ui/table';
 	import type { Target, TargetEntry } from '$lib/types';
 	import { Button } from '$lib/components/ui/button';
-	import LocalDateComponent from './LocalDateComponent.svelte';
+	import LocalDateComponent from './local-date-component.svelte';
 	import { Skeleton } from './ui/skeleton';
 	import { enhance } from '$app/forms';
 

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import TargetTableComponent from '$lib/components/TargetTableComponent.svelte';
 	import type { PageData } from './$types';
-	import TargetForm from '$lib/components/forms/TargetForm.svelte';
+	import TargetForm from '$lib/components/forms/target-form.svelte';
 	import { superForm } from 'sveltekit-superforms/client';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import { targetInsertSchema } from '$lib/schemas';

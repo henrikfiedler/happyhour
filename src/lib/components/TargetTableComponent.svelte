@@ -2,7 +2,7 @@
 	import * as Table from '$lib/components/ui/table';
 	import type { Target, User } from '$lib/types';
 	import { Button } from '$lib/components/ui/button';
-	import LocalDateComponent from './LocalDateComponent.svelte';
+	import LocalDateComponent from './local-date-component.svelte';
 	import { enhance } from '$app/forms';
 	import Star from '@lucide/svelte/icons/star';
 

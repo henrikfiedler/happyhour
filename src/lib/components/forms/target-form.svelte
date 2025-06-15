@@ -6,7 +6,7 @@
 	import { Input } from '$lib/components/ui/input';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import Button from '../ui/button/button.svelte';
-	import WeekDayCheckbox from './WeekDayCheckbox.svelte';
+	import WeekDayCheckbox from './weekday-checkbox.svelte';
 	import { Checkbox } from '../ui/checkbox';
 	import LoaderCircle from '@lucide/svelte/icons/loader-circle';
 
