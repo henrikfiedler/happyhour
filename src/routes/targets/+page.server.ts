@@ -28,6 +28,7 @@ export const load = (async (event) => {
 
 export const actions = {
     target: async (event) => {
+        console.log("🚀 ~ target: ~ event:", event)
         if (event.locals.user === null) {
             return fail(401, {
                 message: "Not authenticated"
@@ -61,21 +62,6 @@ export const actions = {
         return {
             form
         }
-
-    },
-    delete: async (event) => {
-        if (event.locals.user === null) {
-            return fail(401, {
-                message: "Not authenticated"
-            });
-        }
-        const data = await event.request.formData();
-        const targetId = data.get('targetId')?.toString()
-
-        targetId && await db.delete(targetTable)
-            .where(and(eq(targetTable.id, targetId), eq(targetTable.userId, event.locals.user.id)));
-
-        return
 
     },
     favorite: async (event) => {

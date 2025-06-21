@@ -6,7 +6,7 @@
 	import { Input } from '$lib/components/ui/input';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import Button from '../ui/button/button.svelte';
-	import WeekDayCheckbox from './weekday-checkbox.svelte';
+	import WeekDayCheckbox from './WeekDayCheckbox.svelte';
 	import { Checkbox } from '../ui/checkbox';
 	import LoaderCircle from '@lucide/svelte/icons/loader-circle';
 
@@ -27,6 +27,8 @@
 	const endDateProxy = dateProxy(form, 'endDate', {
 		format: 'date'
 	});
+
+	$effect(() => console.log());
 </script>
 
 <form action="?/target" method="POST" use:enhance>
@@ -148,12 +150,12 @@
 		</div>
 	</fieldset>
 
-	<Button type="submit">
+	<Form.Button type="submit">
 		{#if $submitting}
 			<LoaderCircle class="animate-spin" />
 		{/if}
 		Speichern
-	</Button>
+	</Form.Button>
 </form>
 
 <SuperDebug data={$formData} display={false} />

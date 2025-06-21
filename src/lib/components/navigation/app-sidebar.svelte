@@ -18,6 +18,8 @@
 	import NavSettings from './nav-settings.svelte';
 	import { Separator } from '../ui/separator';
 	import { buildPath } from '$lib/utils';
+	import { useSidebar } from '$lib/components/ui/sidebar';
+	import { afterNavigate } from '$app/navigation';
 
 	type NavData = {
 		navMain: /* {
@@ -223,6 +225,10 @@
 			});
 		})()
 	];
+
+	// Close Sidebar on Mobile Navigation
+	let sidebar = $state(useSidebar());
+	afterNavigate(() => sidebar.setOpenMobile(false));
 </script>
 
 <Sidebar.Root bind:ref variant="sidebar" {...restProps}>

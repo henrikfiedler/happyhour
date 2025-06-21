@@ -2,6 +2,15 @@
 import Holidays from 'date-holidays';
 import z from 'zod';
 
+const loginSchema = z.object({
+  email: z.string().email().min(5).max(255),
+  password: z.string().min(8).max(100),
+});
+
+const registerSchema = loginSchema.extend({
+  privacyPolicy: z.boolean().refine(val => val === true, 'Please read and accept the privacy policy.')
+})
+
 const targetInsertSchema = z.object({
   description: z.string().trim().min(1).max(255),
   startDate: z.coerce.date(),
@@ -98,6 +107,8 @@ const absenceEntryInsertSchema = z.object({
 })
 
 export {
+  loginSchema,
+  registerSchema,
   targetInsertSchema,
   targetEntryInsertSchema,
   targetUpdateSchema,

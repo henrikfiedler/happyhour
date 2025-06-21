@@ -16,18 +16,18 @@
 	<Table.Header>
 		<Table.Row>
 			<Table.Head></Table.Head>
-			<Table.Head></Table.Head>
+			<Table.Head>Bezeichnung</Table.Head>
 			<Table.Head>Start</Table.Head>
 			<Table.Head>Ende</Table.Head>
 			<Table.Head>Zielwert</Table.Head>
 			<Table.Head></Table.Head>
-			<Table.Head></Table.Head>
+			<!-- <Table.Head></Table.Head> -->
 		</Table.Row>
 	</Table.Header>
 	<Table.Body>
 		{#each targets as target (target)}
-			<Table.Row>
-				<Table.Cell>
+			<Table.Row class="relative">
+				<Table.Cell class="relative z-20">
 					<form action="/targets?/favorite" method="POST" use:enhance>
 						<input type="hidden" name="targetId" value={target.id} />
 						<Button type="submit" variant="ghost" name="targetId" size="icon">
@@ -55,16 +55,20 @@
 					<LocalDateComponent date={target.endDate} />
 				</Table.Cell>
 				<Table.Cell>{target.targetValue}</Table.Cell>
-				<Table.Cell>
-					<Button href="targets/{target.id}">Detail</Button>
+				<Table.Cell class="px-2">
+					<span class="text-muted-foreground"> &gt; </span>
 				</Table.Cell>
-				<Table.Cell>
+				<a href={`targets/${target.id}`} class="absolute inset-0 z-10"></a>
+				<!-- <Table.Cell>
+					<Button href="targets/{target.id}">Detail</Button>
+				</Table.Cell> -->
+				<!-- <Table.Cell>
 					<form action="/targets?/delete" method="post" use:enhance>
 						<Button type="submit" name="targetId" value={target.id} variant="destructive">
 							Löschen
 						</Button>
 					</form>
-				</Table.Cell>
+				</Table.Cell> -->
 			</Table.Row>
 		{/each}
 	</Table.Body>

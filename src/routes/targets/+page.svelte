@@ -8,12 +8,6 @@
 	import { Separator } from '$lib/components/ui/separator';
 
 	let { data }: { data: PageData } = $props();
-
-	const form = superForm(data.form, {
-		validators: zodClient(targetInsertSchema)
-	});
-
-	const { form: formData, enhance } = form;
 </script>
 
 <TargetTableComponent targets={data.targets} favoriteTargetId={data.favoriteTargetId} />
