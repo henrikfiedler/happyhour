@@ -14,32 +14,11 @@
 	import House from '@lucide/svelte/icons/house';
 
 	import type { LayoutProps } from './$types';
-	import { is } from 'drizzle-orm';
 	import { page } from '$app/state';
 	import type { NavActiveType, NavBuildItem, NavItem } from '$lib/types';
+	import { buildPath } from '$lib/utils';
 
 	let { data, children }: LayoutProps = $props();
-
-	function buildPath(item: NavBuildItem): NavItem {
-		return {
-			title: item.title,
-			url: item.url,
-			icon: item.icon,
-			isActive: checkPathActive(item.url, item.activeType),
-			items: item.items?.map(buildPath) ?? []
-		};
-	}
-
-	function checkPathActive(path: string, type: NavActiveType = 'include'): boolean {
-		switch (type) {
-			case 'exact':
-				return page.url.pathname === path;
-			case 'include':
-				return page.url.pathname.includes(path);
-			default:
-				return page.url.pathname.includes(path);
-		}
-	}
 
 	let navData = $derived({
 		navMain: [
@@ -97,28 +76,12 @@
 			})(),
 			(() => {
 				return buildPath({
-					title: 'Abwesenheit',
+					title: 'Abwesenheiten',
 					url: '/absences',
 					icon: House,
 					activeType: 'exact'
 				});
 			})()
-			/* (() => {
-				return buildPath({
-					title: 'Urlaub',
-					url: '/vacations',
-					icon: Plane,
-					activeType: 'exact'
-				});
-			})(),
-			(() => {
-				return buildPath({
-					title: 'Krankheit',
-					url: '/sickness',
-					icon: Pill,
-					activeType: 'exact'
-				});
-			})() */
 		],
 		navSettings: [
 			{

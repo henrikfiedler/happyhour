@@ -1,7 +1,7 @@
-import type { DBUser, DBSession, DBTarget, DBTargetEntry } from "./server/db/schema";
+import type { DBUser, DBSession, DBTarget, DBTargetEntry, DBAbsenceEntry } from "./server/db/schema";
 
 // type PickPartial<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
-type PickPartial<T, K extends keyof T> = {[P in K]: Partial<T[P]>};
+type PickPartial<T, K extends keyof T> = { [P in K]: Partial<T[P]> };
 
 export type OrderByType = "asc" | "desc";
 
@@ -10,6 +10,29 @@ export type AuthUser = PickPartial<DBUser, 'id' | 'email' | 'createdAt' | 'updat
 export type Session = DBSession
 export type Target = DBTarget
 export type TargetEntry = DBTargetEntry
+// export type AbsencePlan = DBAbsencePlan
+export type AbsenceEntry = DBAbsenceEntry
+
+export const absenceEntryTypesArray: { value: string, label: string }[] = [
+	{
+		value: 'vacation',
+		label: 'Urlaub'
+	},
+	{
+		value: 'sick',
+		label: 'Krankheit'
+	},
+	{
+		value: 'misc',
+		label: 'Sonstiges'
+	}
+] as const
+
+export type AbsenceEntryType = typeof absenceEntryTypesArray[number]['value'];
+
+export const absenceEntryValues: [AbsenceEntryType, ...AbsenceEntryType[]] =
+	absenceEntryTypesArray.map(e => e.value) as [AbsenceEntryType, ...AbsenceEntryType[]];
+
 
 
 export type TargetEntryComparison = {

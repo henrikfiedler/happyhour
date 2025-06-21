@@ -1,12 +1,7 @@
 <script lang="ts" module>
 	import BookOpenIcon from '@lucide/svelte/icons/book-open';
 	import BotIcon from '@lucide/svelte/icons/bot';
-	import ChartPieIcon from '@lucide/svelte/icons/chart-pie';
-	import FrameIcon from '@lucide/svelte/icons/frame';
-	import LifeBuoyIcon from '@lucide/svelte/icons/life-buoy';
-	import MapIcon from '@lucide/svelte/icons/map';
-	import SendIcon from '@lucide/svelte/icons/send';
-	import Settings2Icon from '@lucide/svelte/icons/settings-2';
+	import JoyStick from '@lucide/svelte/icons/joystick';
 	import SquareTerminalIcon from '@lucide/svelte/icons/square-terminal';
 </script>
 
@@ -21,6 +16,8 @@
 	import type { ComponentProps } from 'svelte';
 	import { page } from '$app/state';
 	import NavSettings from './nav-settings.svelte';
+	import { Separator } from '../ui/separator';
+	import { buildPath } from '$lib/utils';
 
 	type NavData = {
 		navMain: /* {
@@ -215,6 +212,17 @@
 			}
 		] */
 	};
+
+	const demoNav = [
+		(() => {
+			return buildPath({
+				title: 'Demo',
+				url: '/',
+				icon: JoyStick,
+				activeType: 'exact'
+			});
+		})()
+	];
 </script>
 
 <Sidebar.Root bind:ref variant="sidebar" {...restProps}>
@@ -230,8 +238,7 @@
 								<CommandIcon class="size-4" />
 							</div>
 							<div class="grid flex-1 text-left text-sm leading-tight">
-								<span class="truncate font-medium">Acme Inc</span>
-								<span class="truncate text-xs">Enterprise</span>
+								<span class="truncate font-medium">HappyHour</span>
 							</div>
 						</a>
 					{/snippet}
@@ -240,12 +247,26 @@
 		</Sidebar.Menu>
 	</Sidebar.Header>
 	<Sidebar.Content>
-		<NavMain items={data.navMain} />
-		<!-- <NavSettings items={data.navSettings} /> -->
-		<!-- <NavProjects projects={data.projects} /> -->
-		<!-- <NavSecondary items={data.navSecondary} class="mt-auto" /> -->
+		{#if user}
+			<NavMain items={data.navMain} />
+			<!-- <NavSettings items={data.navSettings} /> -->
+			<!-- <NavProjects projects={data.projects} /> -->
+			<!-- <NavSecondary items={data.navSecondary} class="mt-auto" /> -->
+		{:else}
+			<NavMain items={demoNav}></NavMain>
+		{/if}
 	</Sidebar.Content>
 	<Sidebar.Footer>
 		<NavUser {user} />
+		<div class="flex flex-col items-center">
+			<div class="flex flex-row gap-2">
+				<a class="text-muted-foreground text-xs" href="/impressum">Impressum</a>
+				<Separator orientation="vertical"></Separator>
+				<a class="text-muted-foreground text-xs" href="/datenschutz">Datenschutz</a>
+			</div>
+			<div class="text-muted-foreground text-xs">
+				by <a class="underline" href="https://henrikfiedler.de" target="_blank">Henrik Fiedler</a>
+			</div>
+		</div>
 	</Sidebar.Footer>
 </Sidebar.Root>

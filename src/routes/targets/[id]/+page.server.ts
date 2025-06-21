@@ -7,6 +7,8 @@ import { checkEntryEndDate, checkEntryStartDate, getEntriesByTarget } from '$lib
 import { targetEntryInsertSchema } from '$lib/schemas';
 import { getUserHolidayData } from '$lib/server/models/user';
 import { requireLogin } from '$lib/server/auth/user';
+import { getAbsenceEntriesInDateRange } from '$lib/server/models/absence-entry';
+// import { getAbsencePlansInDateRange } from '$lib/server/models/absence-plan';
 
 const schema = targetEntryInsertSchema
 
@@ -29,10 +31,16 @@ export const load = (async (event) => {
 
     const targetEntries = await getEntriesByTarget(target.id);
 
+    // const absencePlans = await getAbsencePlansInDateRange(user, target.startDate, target.endDate)
+
+    const absenceEntries = await getAbsenceEntriesInDateRange(user, target.startDate, target.endDate)
+
     return {
         // user: event.locals.user,
         holidayData,
         target,
-        targetEntries
+        targetEntries,
+        absenceEntries,
+        // absencePlans
     };
 }) satisfies PageServerLoad;

@@ -3,6 +3,7 @@ import { relations } from "drizzle-orm";
 import type { InferInsertModel, InferSelectModel } from "drizzle-orm";
 import { createInsertSchema } from "drizzle-zod";
 import type { AnyPgColumn } from "drizzle-orm/pg-core";
+import { absenceEntryTypesArray, absenceEntryValues, type AbsenceEntryType } from "../../types";
 
 export const userTable = pgTable("user", {
 	id: uuid("id").primaryKey().defaultRandom(),
@@ -24,12 +25,13 @@ export const userTable = pgTable("user", {
 
 export const usersRelations = relations(userTable, ({ many, one }) => ({
 	sessions: many(sessionTable),
-	targets: many(targetTable),
+	targets: many(targetTable, { relationName: 'target' }),
 	favoriteTarget: one(targetTable, {
 		fields: [userTable.favoriteTargetId],
 		references: [targetTable.id],
 		relationName: 'favoriteTarget'
-	})
+	}),
+	absenceEntries: many(absenceEntryTable),
 }));
 
 export const sessionTable = pgTable("session", {
@@ -81,7 +83,8 @@ export const targetTable = pgTable("target", {
 export const targetRelations = relations(targetTable, ({ one, many }) => ({
 	user: one(userTable, {
 		fields: [targetTable.userId],
-		references: [userTable.id]
+		references: [userTable.id],
+		relationName: 'target'
 	}),
 	entries: many(targetEntryTable),
 	favoriteTarget: one(userTable, {
@@ -108,9 +111,54 @@ export const targetEntryRelations = relations(targetEntryTable, ({ one, many }) 
 	})
 }));
 
+// export const absenceTypeEnum = pgEnum('absence_type', ['sick', 'vacation', 'misc']);
+
+export const absenceTypeEnum = pgEnum('absence_type', absenceEntryValues);
+
+/* export const absencePlanTable = pgTable("absence_plan", {
+	id: uuid("id").primaryKey().defaultRandom(),
+	userId: uuid("user_id")
+		.notNull()
+		.references(() => userTable.id),
+	type: absenceTypeEnum('type').notNull(),
+	year: integer('year').notNull(),
+	plannedDays: integer('planned_days'),
+	createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
+	updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow(),
+}) */
+
+/* export const absencePlanRelations = relations(absencePlanTable, ({ one, many }) => ({
+	user: one(userTable, {
+		fields: [absencePlanTable.userId],
+		references: [userTable.id]
+	}),
+})); */
+
+export const absenceEntryTable = pgTable("absence_entry", {
+	id: uuid("id").primaryKey().defaultRandom(),
+	userId: uuid("user_id")
+		.notNull()
+		.references(() => userTable.id),
+	type: absenceTypeEnum('type').notNull(),
+	startDate: date("start_date", { mode: "date" }).notNull(),
+	endDate: date("end_date", { mode: "date" }),
+	description: varchar("description", { length: 30 }),
+	createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
+	updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow(),
+})
+
+export const absenceRelations = relations(absenceEntryTable, ({ one, many }) => ({
+	user: one(userTable, {
+		fields: [absenceEntryTable.userId],
+		references: [userTable.id]
+	}),
+}));
+
 export type DBUser = InferSelectModel<typeof userTable>;
 export type DBSession = InferSelectModel<typeof sessionTable>;
 export type DBTarget = InferSelectModel<typeof targetTable>;
 export type DBTargetEntry = InferSelectModel<typeof targetEntryTable>;
+// export type DBAbsencePlan = InferSelectModel<typeof absencePlanTable>;
+export type DBAbsenceEntry = InferSelectModel<typeof absenceEntryTable>;
 
 export const targetInsertSchema = createInsertSchema(targetTable)

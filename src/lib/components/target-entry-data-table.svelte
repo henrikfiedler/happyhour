@@ -1,15 +1,9 @@
 <script lang="ts">
-	import * as Table from '$lib/components/ui/table';
-	import * as Dialog from '$lib/components/ui/dialog';
-	import type { Target, TargetEntry } from '$lib/types';
-	import { Button } from '$lib/components/ui/button';
+	import type { TargetEntry } from '$lib/types';
 	import LocalDateComponent from './local-date-component.svelte';
-	import { Skeleton } from './ui/skeleton';
-	import { enhance } from '$app/forms';
 	import { getCoreRowModel, type ColumnDef, type RowSelectionState } from '@tanstack/table-core';
 	import { createSvelteTable, FlexRender, renderSnippet, renderComponent } from './ui/data-table';
 	import { Checkbox } from './ui/checkbox';
-	import LoaderCircle from '@lucide/svelte/icons/loader-circle';
 	import DataTable from './data-table.svelte';
 
 	let { targetEntries: data }: { targetEntries: TargetEntry[] } = $props();

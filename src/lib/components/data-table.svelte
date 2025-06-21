@@ -55,7 +55,7 @@
 					{table.getSelectedRowModel().rows.length} Einträge werden gelöscht.
 				</p>
 				{#each table.getSelectedRowModel().rows as row (row.id)}
-					<input type="hidden" name="targetEntryId" value={row.original.id} />
+					<input type="hidden" name="deleteId" value={row.original.id} />
 				{/each}
 				<Dialog.Footer>
 					<Button type="submit" variant="destructive" disabled={deleteSubmitting}>

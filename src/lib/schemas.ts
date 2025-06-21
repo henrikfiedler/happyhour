@@ -67,4 +67,41 @@ const holidaySchema = z.object({
 
 ); */
 
-export { targetInsertSchema, targetEntryInsertSchema, targetUpdateSchema, holidaySchema };
+/* const absencePlanInsertSchema = z.object({
+  year: z.number().min(1900).max(9999),
+  sickValue: z.number().min(0),
+  vacationValue: z.number().min(0),
+  miscValue: z.number().min(0),
+}); */
+
+const absenceEntryInsertSchema = z.object({
+  type: z.enum(['vacation', 'sick', 'misc']).default('vacation'),
+  startDate: z.coerce.date(),
+  endDate: z.coerce.date().optional(),
+  description: z.string().trim().max(30).optional(),
+  createdAt: z.date().optional(),
+  updatedAt: z.date().optional()
+}).superRefine((val, ctx) => {
+  if (val.endDate && val.endDate < val.startDate) {
+    console.log('error')
+    ctx.addIssue({
+      code: 'invalid_date',
+      message: 'Start date must be before end date.',
+      path: ['startDate']
+    })
+    ctx.addIssue({
+      code: 'invalid_date',
+      message: 'End date must be after start date.',
+      path: ['endDate']
+    })
+  };
+})
+
+export {
+  targetInsertSchema,
+  targetEntryInsertSchema,
+  targetUpdateSchema,
+  holidaySchema,
+  // absencePlanInsertSchema,
+  absenceEntryInsertSchema
+};

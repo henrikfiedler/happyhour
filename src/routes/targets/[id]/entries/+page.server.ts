@@ -95,15 +95,13 @@ export const actions = {
         }
 
         const data = await event.request.formData();
-        console.log("🚀 ~ delete: ~ data:", data)
-        const entryIds = data.getAll('targetEntryId').map(e => e.toString())
-        console.log("🚀 ~ delete: ~ entryIds:", entryIds)
+        const deleteIds = data.getAll('deleteId').map(e => e.toString())
 
-        await delay(3000)
+        // await delay(3000)
 
-        entryIds && await db.delete(targetEntryTable)
+        deleteIds && await db.delete(targetEntryTable)
             .where(
-                and(inArray(targetEntryTable.id, entryIds),
+                and(inArray(targetEntryTable.id, deleteIds),
                     eq(targetEntryTable.targetId, event.params.id))
             );
 
