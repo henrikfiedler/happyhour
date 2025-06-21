@@ -264,7 +264,7 @@
 	</Sidebar.Content>
 	<Sidebar.Footer>
 		<NavUser {user} />
-		<div class="flex flex-col items-center">
+		<div class="flex flex-col items-center gap-1">
 			<div class="flex flex-row gap-2">
 				<a class="text-muted-foreground text-xs" href="/imprint">Impressum</a>
 				<Separator orientation="vertical"></Separator>

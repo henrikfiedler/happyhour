@@ -20,7 +20,7 @@
 	<h1 class="text-4xl font-bold">Registrieren</h1>
 	<div class="text-center text-sm">
 		Du hast bereits einen Account?
-		<a href="/register" class="underline underline-offset-4">Login</a>
+		<a href="/login" class="underline underline-offset-4">Login</a>
 	</div>
 	<div class="w-full max-w-sm">
 		<form method="POST" use:enhance>
