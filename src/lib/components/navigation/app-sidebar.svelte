@@ -260,9 +260,9 @@
 		<NavUser {user} />
 		<div class="flex flex-col items-center">
 			<div class="flex flex-row gap-2">
-				<a class="text-muted-foreground text-xs" href="/impressum">Impressum</a>
+				<a class="text-muted-foreground text-xs" href="/imprint">Impressum</a>
 				<Separator orientation="vertical"></Separator>
-				<a class="text-muted-foreground text-xs" href="/datenschutz">Datenschutz</a>
+				<a class="text-muted-foreground text-xs" href="/privacy-policy">Datenschutz</a>
 			</div>
 			<div class="text-muted-foreground text-xs">
 				by <a class="underline" href="https://henrikfiedler.de" target="_blank">Henrik Fiedler</a>
