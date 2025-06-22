@@ -1,4 +1,4 @@
-import type { DBUser, DBSession, DBTarget, DBTargetEntry, DBAbsenceEntry } from "./server/db/schema";
+import type { DBUser, DBSession, DBTarget, DBTargetEntry, DBAbsenceEntry, DBEmailVerification, DBPasswordForgot } from "./server/db/schema";
 
 // type PickPartial<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 type PickPartial<T, K extends keyof T> = { [P in K]: Partial<T[P]> };
@@ -6,8 +6,10 @@ type PickPartial<T, K extends keyof T> = { [P in K]: Partial<T[P]> };
 export type OrderByType = "asc" | "desc";
 
 export type User = Omit<DBUser, "passwordHash">;
-export type AuthUser = PickPartial<DBUser, 'id' | 'email' | 'createdAt' | 'updatedAt'>
+export type AuthUser = PickPartial<DBUser, 'id' | 'email' | 'emailVerified' | 'createdAt' | 'updatedAt'>
 export type Session = DBSession
+export type EmailVerification = DBEmailVerification
+export type PasswordForgot = DBPasswordForgot
 export type Target = DBTarget
 export type TargetEntry = DBTargetEntry
 // export type AbsencePlan = DBAbsencePlan

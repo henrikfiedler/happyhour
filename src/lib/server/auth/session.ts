@@ -38,6 +38,7 @@ export async function validateSessionToken(token: string): Promise<SessionValida
                 columns: {
                     id: true,
                     email: true,
+                    emailVerified: true,
                     createdAt: true,
                     updatedAt: true,
                 }

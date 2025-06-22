@@ -40,9 +40,15 @@ export const actions = {
             return setError(form, 'password', 'Invalid password or e-mail.');
         }
 
+
+
         const sessionToken = generateSessionToken();
         const session = await createSession(sessionToken, user.id);
         setSessionTokenCookie(event, sessionToken, session.expiresAt);
+
+        if (!user.emailVerified) {
+            return redirect(303, '/email-verification')
+        }
 
         return redirect(303, event.url.searchParams.get('redirectTo') ?? '/targets');
     },

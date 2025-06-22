@@ -11,6 +11,9 @@ const registerSchema = loginSchema.extend({
   privacyPolicy: z.boolean().refine(val => val === true, 'Please read and accept the privacy policy.')
 })
 
+const forgotPasswortRequestSchema = loginSchema.pick({ email: true })
+const forgotPasswortSubmitSchema = loginSchema.pick({ password: true }).extend({ token: z.string() })
+
 const targetInsertSchema = z.object({
   description: z.string().trim().min(1).max(255),
   startDate: z.coerce.date(),
@@ -114,5 +117,7 @@ export {
   targetUpdateSchema,
   holidaySchema,
   // absencePlanInsertSchema,
-  absenceEntryInsertSchema
+  absenceEntryInsertSchema,
+  forgotPasswortRequestSchema,
+  forgotPasswortSubmitSchema
 };

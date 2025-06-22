@@ -4,7 +4,6 @@
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import * as Form from '$lib/components/ui/form';
 	import { Input } from '$lib/components/ui/input';
-	import { Button } from '$lib/components/ui/button';
 	import { loginSchema } from '$lib/schemas';
 
 	let { data }: { data: PageData } = $props();
@@ -41,7 +40,7 @@
 						{#snippet children({ props })}
 							<div class="flex items-center">
 								<Form.Label>Passwort</Form.Label>
-								<a href="##" class="ml-auto text-sm underline-offset-4 hover:underline">
+								<a href="/password-forgot" class="ml-auto text-sm underline-offset-4 hover:underline">
 									Passwort vergessen?
 								</a>
 							</div>

@@ -2,7 +2,7 @@ import { eq } from "drizzle-orm";
 import { db } from "../db";
 import { userTable } from "../db/schema";
 import { hashPassword } from "./password";
-import type { User } from "$lib/types";
+import type { AuthUser, User } from "$lib/types";
 
 import { redirect } from '@sveltejs/kit';
 import { getRequestEvent } from '$app/server';
@@ -15,7 +15,11 @@ export function requireLogin() {
         const redirectTo = url.pathname + url.search;
         const params = new URLSearchParams({ redirectTo });
 
-        redirect(307, `/login?${params}`);
+        return redirect(307, `/login?${params}`);
+    }
+
+    if (!locals.user.emailVerified) {
+        return redirect(307, `/email-verification`);
     }
 
     return locals.user;
@@ -52,4 +56,18 @@ export async function getUserFromEmail(email: string) {
         where: eq(userTable.email, email),
     })
     return user;
+}
+
+export async function getUserFromId(id: User['id']) {
+    return db.query.userTable.findFirst({
+        where: eq(userTable.id, id),
+    })
+
+}
+
+export async function getUserFromAuth(user: AuthUser) {
+    return db.query.userTable.findFirst({
+        where: eq(userTable.id, user.id),
+    })
+
 }

@@ -253,7 +253,7 @@
 		</Sidebar.Menu>
 	</Sidebar.Header>
 	<Sidebar.Content>
-		{#if user}
+		{#if user?.emailVerified}
 			<NavMain items={data.navMain} />
 			<!-- <NavSettings items={data.navSettings} /> -->
 			<!-- <NavProjects projects={data.projects} /> -->

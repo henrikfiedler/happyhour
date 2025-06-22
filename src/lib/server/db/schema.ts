@@ -9,6 +9,7 @@ export const userTable = pgTable("user", {
 	id: uuid("id").primaryKey().defaultRandom(),
 	email: varchar('email', { length: 255 }).unique().notNull(),
 	passwordHash: text("password_hash").notNull(),
+	emailVerified: boolean('email_verified').notNull().default(false),
 	createdAt: timestamp("created_at", {
 		withTimezone: true,
 	}).notNull().defaultNow(),
@@ -25,6 +26,8 @@ export const userTable = pgTable("user", {
 
 export const usersRelations = relations(userTable, ({ many, one }) => ({
 	sessions: many(sessionTable),
+	emailVerifications: many(emailVerificationTable),
+	passwordForgots: many(passwordForgotTable),
 	targets: many(targetTable, { relationName: 'target' }),
 	favoriteTarget: one(targetTable, {
 		fields: [userTable.favoriteTargetId],
@@ -47,6 +50,40 @@ export const sessionTable = pgTable("session", {
 export const sessionsRelations = relations(sessionTable, ({ one }) => ({
 	user: one(userTable, {
 		fields: [sessionTable.userId],
+		references: [userTable.id]
+	})
+}));
+
+export const emailVerificationTable = pgTable("email_verification", {
+	id: uuid("id").primaryKey().defaultRandom(),
+	userId: uuid("user_id")
+		.notNull()
+		.references(() => userTable.id),
+	expiresAt: timestamp("expires_at", {
+		withTimezone: true,
+	}).notNull()
+});
+
+export const emailVerificationRelations = relations(emailVerificationTable, ({ one }) => ({
+	user: one(userTable, {
+		fields: [emailVerificationTable.userId],
+		references: [userTable.id]
+	})
+}));
+
+export const passwordForgotTable = pgTable("password_forgot", {
+	id: uuid("id").primaryKey().defaultRandom(),
+	userId: uuid("user_id")
+		.notNull()
+		.references(() => userTable.id),
+	expiresAt: timestamp("expires_at", {
+		withTimezone: true,
+	}).notNull()
+});
+
+export const passwordForgotRelations = relations(passwordForgotTable, ({ one }) => ({
+	user: one(userTable, {
+		fields: [passwordForgotTable.userId],
 		references: [userTable.id]
 	})
 }));
@@ -156,6 +193,8 @@ export const absenceRelations = relations(absenceEntryTable, ({ one, many }) => 
 
 export type DBUser = InferSelectModel<typeof userTable>;
 export type DBSession = InferSelectModel<typeof sessionTable>;
+export type DBEmailVerification = InferSelectModel<typeof emailVerificationTable>;
+export type DBPasswordForgot = InferSelectModel<typeof passwordForgotTable>;
 export type DBTarget = InferSelectModel<typeof targetTable>;
 export type DBTargetEntry = InferSelectModel<typeof targetEntryTable>;
 // export type DBAbsencePlan = InferSelectModel<typeof absencePlanTable>;

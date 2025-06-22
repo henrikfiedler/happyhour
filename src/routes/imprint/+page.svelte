@@ -5,7 +5,7 @@
 
 <div class="grid grid-cols-1 gap-3">
 	<div>
-		<h1 class="text-4xl">Impressum</h1>
+		<h1 class="text-4xl font-bold">Impressum</h1>
 		<p>
 			Henrik Fiedler<br />
 			Klosterweg 29<br />

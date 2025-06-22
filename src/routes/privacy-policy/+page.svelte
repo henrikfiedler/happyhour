@@ -4,7 +4,7 @@
 </script>
 
 <div class="grid grid-cols-1 gap-3">
-	<h1 class="text-4xl">Datenschutz&shy;erkl&auml;rung</h1>
+	<h1 class="text-4xl font-bold">Datenschutz&shy;erkl&auml;rung</h1>
 	<div class="grid grid-cols-1 gap-2">
 		<h2 class="text-2xl">1. Datenschutz auf einen Blick</h2>
 		<div>
