@@ -4,7 +4,6 @@
 	import * as Breadcrumb from '$lib/components/ui/breadcrumb';
 	import { Separator } from '$lib/components/ui/separator';
 	import * as Sidebar from '$lib/components/ui/sidebar';
-	import { useSidebar } from '$lib/components/ui/sidebar';
 	import BotIcon from '@lucide/svelte/icons/bot';
 	import Target from '@lucide/svelte/icons/target';
 	import Star from '@lucide/svelte/icons/star';
@@ -13,12 +12,10 @@
 	import Pill from '@lucide/svelte/icons/pill';
 	import Plane from '@lucide/svelte/icons/plane';
 	import House from '@lucide/svelte/icons/house';
+	import { ModeWatcher } from 'mode-watcher';
 
 	import type { LayoutProps } from './$types';
-	import { page } from '$app/state';
-	import type { NavActiveType, NavBuildItem, NavItem } from '$lib/types';
 	import { buildPath } from '$lib/utils';
-	import { afterNavigate } from '$app/navigation';
 
 	let { data, children }: LayoutProps = $props();
 
@@ -106,10 +103,9 @@
 
 	let primaryNav = $derived(navData.navMain.find((item) => item.isActive));
 	let secondaryNav = $derived(primaryNav?.items?.find((item) => item.isActive));
-
-	
 </script>
 
+<ModeWatcher />
 <Sidebar.Provider>
 	<AppSidebar data={navData} user={data.user} />
 	<Sidebar.Inset>

@@ -69,27 +69,27 @@
 							{@render navUser(user)}
 						</div>
 					</DropdownMenu.Label>
-					<DropdownMenu.Separator />
+					<!-- <DropdownMenu.Separator />
 					<DropdownMenu.Group>
 						<DropdownMenu.Item>
 							<SparklesIcon />
 							Upgrade to Pro
 						</DropdownMenu.Item>
-					</DropdownMenu.Group>
+					</DropdownMenu.Group> -->
 					<DropdownMenu.Separator />
 					<DropdownMenu.Group>
 						<DropdownMenu.Item>
 							<BadgeCheckIcon />
-							Account
+							<a href="/account">Account</a>
 						</DropdownMenu.Item>
-						<DropdownMenu.Item>
+						<!-- <DropdownMenu.Item>
 							<CreditCardIcon />
 							Billing
 						</DropdownMenu.Item>
 						<DropdownMenu.Item>
 							<BellIcon />
 							Notifications
-						</DropdownMenu.Item>
+						</DropdownMenu.Item> -->
 					</DropdownMenu.Group>
 					<DropdownMenu.Separator />
 					<form action="/logout" method="post" use:enhance>

@@ -20,6 +20,7 @@
 	import { buildPath } from '$lib/utils';
 	import { useSidebar } from '$lib/components/ui/sidebar';
 	import { afterNavigate } from '$app/navigation';
+	import NavDarkmode from './nav-darkmode.svelte';
 
 	type NavData = {
 		navMain: /* {
@@ -263,6 +264,7 @@
 		{/if}
 	</Sidebar.Content>
 	<Sidebar.Footer>
+		<NavDarkmode></NavDarkmode>
 		<NavUser {user} />
 		<div class="flex flex-col items-center gap-1">
 			<div class="flex flex-row gap-2">

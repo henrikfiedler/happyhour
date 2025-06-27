@@ -13,7 +13,7 @@
 	} satisfies Chart.ChartConfig;
 </script>
 
-<Chart.Container config={chartConfig}>
+<Chart.Container config={chartConfig} class="mb-5">
 	<AreaChart
 		data={chartData}
 		x="date"
