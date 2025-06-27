@@ -8,13 +8,14 @@
 	import { Button } from '$lib/components/ui/button';
 	import TargetEntryDataTable from '$lib/components/target-entry-data-table.svelte';
 	import { Separator } from '$lib/components/ui/separator';
+	import LoaderCircle from '@lucide/svelte/icons/loader-circle';
 
 	let { data }: { data: PageData } = $props();
 	const form = superForm(data.form, {
 		validators: zodClient(targetEntryInsertSchema)
 	});
 
-	const { form: formData, enhance } = form;
+	const { form: formData, enhance, submitting } = form;
 
 	const startDateProxy = dateProxy(form, 'startDate', {
 		format: 'date'
@@ -69,7 +70,12 @@
 			<Form.FieldErrors />
 		</Form.Field>
 	</div>
-	<Button type="submit">Hinzufügen</Button>
+	<Form.Button type="submit">
+		{#if $submitting}
+			<LoaderCircle class="animate-spin" />
+		{/if}
+		Hinzufügen
+	</Form.Button>
 </form>
 
 <SuperDebug data={$formData} display={false} />
