@@ -12,11 +12,19 @@
 
 	type TargetSchema = typeof targetUpdateSchema;
 
-	let { rawForm }: { rawForm: SuperValidated<Infer<TargetSchema>> } = $props();
+	let {
+		rawForm,
+		resetForm,
+		class: className = ''
+	}: {
+		rawForm: SuperValidated<Infer<TargetSchema>>;
+		resetForm: boolean;
+		class?: string;
+	} = $props();
 
 	const form = superForm(rawForm, {
 		validators: zodClient(targetUpdateSchema),
-		resetForm: false
+		resetForm
 	});
 
 	const { form: formData, enhance, submitting } = form;
@@ -31,7 +39,7 @@
 	$effect(() => console.log());
 </script>
 
-<form action="?/target" method="POST" use:enhance>
+<form class={className} action="?/target" method="POST" use:enhance>
 	<div class="grid gap-2 sm:grid-cols-2">
 		<Form.Field {form} name="description">
 			<Form.Control>

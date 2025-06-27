@@ -35,7 +35,7 @@
 		{#if !user}
 			<div class="grid gap-2">
 				<Button href="/login" size="lg">Login</Button>
-				<Button href="/register" size="lg" variant="outline">Register</Button>
+				<Button href="/register" size="lg" variant="outline">Registrieren</Button>
 			</div>
 			<!-- <Sidebar.MenuButton
 				href="/register"
@@ -95,7 +95,7 @@
 					<form action="/logout" method="post" use:enhance>
 						<DropdownMenu.Item>
 							<LogOutIcon />
-							<Button type="submit" variant="ghost">Log out</Button>
+							<Button type="submit" variant="ghost">Logout</Button>
 						</DropdownMenu.Item>
 					</form>
 				</DropdownMenu.Content>
