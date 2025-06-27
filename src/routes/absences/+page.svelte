@@ -10,6 +10,7 @@
 	import { Input } from '$lib/components/ui/input';
 	import AbsenceEntryDataTable from '$lib/components/absence-entry-data-table.svelte';
 	import { absenceEntryTypesArray } from '$lib/types';
+	import LoaderCircle from '@lucide/svelte/icons/loader-circle';
 
 	let { data }: { data: PageData } = $props();
 
@@ -25,7 +26,7 @@
 		resetForm: true
 	});
 
-	const { form: entryFormData, enhance: entryEnhance } = entryForm;
+	const { form: entryFormData, enhance: entryEnhance, submitting } = entryForm;
 
 	const startDateProxy = dateProxy(entryForm, 'startDate', {
 		format: 'date'
@@ -170,7 +171,12 @@
 		</Form.Field>
 	</div>
 
-	<Form.Button>Hinzufügen</Form.Button>
+	<Form.Button>
+		{#if $submitting}
+			<LoaderCircle class="animate-spin" />
+		{/if}
+		Hinzufügen
+	</Form.Button>
 </form>
 
 <div class="mb-10">

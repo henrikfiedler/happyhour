@@ -7,6 +7,7 @@
 	import { Input } from '$lib/components/ui/input';
 	import * as Select from '$lib/components/ui/select';
 	import Holidays, { type HolidaysTypes } from 'date-holidays';
+	import LoaderCircle from '@lucide/svelte/icons/loader-circle';
 
 	let { data }: { data: PageData } = $props();
 
@@ -15,7 +16,7 @@
 		resetForm: false
 	});
 
-	const { form: formData, enhance } = form;
+	const { form: formData, enhance, submitting } = form;
 
 	type CountryType = { value: string; label: string; sortIndex: number };
 	type StateRegionType = { value: string; label: string };
@@ -149,5 +150,10 @@
 		</Form.Field>
 	</div>
 
-	<Form.Button type="submit">Speichern</Form.Button>
+	<Form.Button type="submit">
+		{#if $submitting}
+			<LoaderCircle class="animate-spin" />
+		{/if}
+		Speichern
+	</Form.Button>
 </form>
