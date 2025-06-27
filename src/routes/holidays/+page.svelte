@@ -8,6 +8,7 @@
 	import * as Select from '$lib/components/ui/select';
 	import Holidays, { type HolidaysTypes } from 'date-holidays';
 	import LoaderCircle from '@lucide/svelte/icons/loader-circle';
+	import SubmitButton from '$lib/components/forms/submit-button.svelte';
 
 	let { data }: { data: PageData } = $props();
 
@@ -150,10 +151,5 @@
 		</Form.Field>
 	</div>
 
-	<Form.Button type="submit">
-		{#if $submitting}
-			<LoaderCircle class="animate-spin" />
-		{/if}
-		Speichern
-	</Form.Button>
+	<SubmitButton {submitting}>Speichern</SubmitButton>
 </form>
