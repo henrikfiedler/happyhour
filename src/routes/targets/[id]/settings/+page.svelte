@@ -8,7 +8,7 @@
 	let { data }: { data: PageData } = $props();
 </script>
 
-<TargetForm rawForm={data.form}></TargetForm>
+<TargetForm rawForm={data.form} resetForm={false}></TargetForm>
 
 <Separator class="my-5"></Separator>
 
