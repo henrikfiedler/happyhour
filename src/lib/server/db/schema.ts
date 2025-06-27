@@ -133,7 +133,9 @@ export const targetRelations = relations(targetTable, ({ one, many }) => ({
 
 export const targetEntryTable = pgTable("target_entry", {
 	id: uuid("id").primaryKey().defaultRandom(),
-	targetId: uuid("target_id").notNull().references(() => targetTable.id),
+	targetId: uuid("target_id").notNull().references(() => targetTable.id, {
+		onDelete: 'cascade'
+	}),
 	startDate: date("start_date", { mode: "date" }).notNull(),
 	endDate: date("end_date", { mode: "date" }),
 	entryValue: real("entry_value").notNull(),
