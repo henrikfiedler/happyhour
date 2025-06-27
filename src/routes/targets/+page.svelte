@@ -16,4 +16,4 @@
 
 <h2 class="mb-4 text-2xl font-bold">Neues Ziel erstellen</h2>
 
-<TargetForm rawForm={data.form} resetForm={true} class="mb-5"></TargetForm>
+<TargetForm rawForm={data.form} type={'create'} class="mb-5"></TargetForm>

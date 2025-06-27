@@ -13,7 +13,7 @@
 	let deleteSubmitting = $state(false);
 </script>
 
-<TargetForm rawForm={data.form} resetForm={false}></TargetForm>
+<TargetForm rawForm={data.form} type={'edit'}></TargetForm>
 
 <Separator class="my-5"></Separator>
 

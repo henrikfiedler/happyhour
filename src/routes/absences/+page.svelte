@@ -11,6 +11,7 @@
 	import AbsenceEntryDataTable from '$lib/components/absence-entry-data-table.svelte';
 	import { absenceEntryTypesArray } from '$lib/types';
 	import LoaderCircle from '@lucide/svelte/icons/loader-circle';
+	import SubmitButton from '$lib/components/forms/submit-button.svelte';
 
 	let { data }: { data: PageData } = $props();
 
@@ -171,12 +172,7 @@
 		</Form.Field>
 	</div>
 
-	<Form.Button>
-		{#if $submitting}
-			<LoaderCircle class="animate-spin" />
-		{/if}
-		Hinzufügen
-	</Form.Button>
+	<SubmitButton {submitting}>Hinzufügen</SubmitButton>
 </form>
 
 <div class="mb-10">

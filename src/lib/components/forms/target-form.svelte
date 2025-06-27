@@ -9,22 +9,23 @@
 	import WeekDayCheckbox from './WeekDayCheckbox.svelte';
 	import { Checkbox } from '../ui/checkbox';
 	import LoaderCircle from '@lucide/svelte/icons/loader-circle';
+	import SubmitButton from './submit-button.svelte';
 
 	type TargetSchema = typeof targetUpdateSchema;
 
 	let {
 		rawForm,
-		resetForm,
+		type,
 		class: className = ''
 	}: {
 		rawForm: SuperValidated<Infer<TargetSchema>>;
-		resetForm: boolean;
+		type: 'edit' | 'create';
 		class?: string;
 	} = $props();
 
 	const form = superForm(rawForm, {
 		validators: zodClient(targetUpdateSchema),
-		resetForm
+		resetForm: type === 'create'
 	});
 
 	const { form: formData, enhance, submitting } = form;
@@ -158,12 +159,20 @@
 		</div>
 	</fieldset>
 
-	<Form.Button type="submit">
+	<SubmitButton {submitting}>
+		{#if type === 'create'}
+			Hinzufügen
+		{:else}
+			Speichern
+		{/if}
+	</SubmitButton>
+
+	<!-- <Form.Button type="submit">
 		{#if $submitting}
 			<LoaderCircle class="animate-spin" />
 		{/if}
 		Speichern
-	</Form.Button>
+	</Form.Button> -->
 </form>
 
 <SuperDebug data={$formData} display={false} />

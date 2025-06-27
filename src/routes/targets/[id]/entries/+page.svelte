@@ -9,6 +9,7 @@
 	import TargetEntryDataTable from '$lib/components/target-entry-data-table.svelte';
 	import { Separator } from '$lib/components/ui/separator';
 	import LoaderCircle from '@lucide/svelte/icons/loader-circle';
+	import SubmitButton from '$lib/components/forms/submit-button.svelte';
 
 	let { data }: { data: PageData } = $props();
 	const form = superForm(data.form, {
@@ -70,12 +71,7 @@
 			<Form.FieldErrors />
 		</Form.Field>
 	</div>
-	<Form.Button type="submit">
-		{#if $submitting}
-			<LoaderCircle class="animate-spin" />
-		{/if}
-		Hinzufügen
-	</Form.Button>
+	<SubmitButton {submitting}>Hinzufügen</SubmitButton>
 </form>
 
 <SuperDebug data={$formData} display={false} />
