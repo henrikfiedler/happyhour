@@ -9,9 +9,13 @@ import { loginSchema } from '$lib/schemas';
 
 const schema = loginSchema
 
-export const load = (async () => {
+export const load = (async (event) => {
+    if (event.locals.user) {
+        return redirect(303, '/targets');
+    }
+
     return {
-        form: await superValidate(zod(schema)),
+        form: await superValidate(event, zod(schema)),
     };
 }) satisfies PageServerLoad;
 

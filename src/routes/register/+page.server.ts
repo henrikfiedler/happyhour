@@ -10,14 +10,19 @@ import { eq } from 'drizzle-orm';
 import { registerSchema } from '$lib/schemas';
 
 
-export const load = (async () => {
+export const load = (async (event) => {
+    if (event.locals.user) {
+        return redirect(303, '/targets');
+    }
+
     return {
-        form: await superValidate(zod(registerSchema)),
+        form: await superValidate(event, zod(registerSchema)),
     };
 }) satisfies PageServerLoad;
 
 export const actions = {
     default: async (event) => {
+
         // const formData = await request.formData();
         const form = await superValidate(event, zod(registerSchema));
         console.log("🚀 ~ default: ~ form:", form)

@@ -174,5 +174,6 @@
 </form>
 
 <div class="mb-10">
-	<AbsenceEntryDataTable absenceEntries={data.absenceEntries}></AbsenceEntryDataTable>
+	<AbsenceEntryDataTable absenceEntries={data.absenceEntries} withDeleteDialog={true}
+	></AbsenceEntryDataTable>
 </div>

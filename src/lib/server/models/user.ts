@@ -1,10 +1,10 @@
 import { desc, asc, eq, and, getTableColumns } from "drizzle-orm";
 import { db } from "../db";
 import { targetTable, userTable } from "../db/schema";
-import type { AuthUser, OrderByType } from "$lib/types";
+import type { AuthUser, OrderByType, HolidayData } from "$lib/types";
 
 
-export async function getUserHolidayData(user: AuthUser) {
+export async function getUserHolidayData(user: AuthUser): Promise<HolidayData | undefined> {
     return db.query.userTable.findFirst({
         columns: {
             country: true,

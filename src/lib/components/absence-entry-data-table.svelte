@@ -6,7 +6,10 @@
 	import { Checkbox } from './ui/checkbox';
 	import DataTable from './data-table.svelte';
 
-	let { absenceEntries: data }: { absenceEntries: AbsenceEntry[] } = $props();
+	let {
+		absenceEntries: data,
+		withDeleteDialog
+	}: { absenceEntries: AbsenceEntry[]; withDeleteDialog: boolean } = $props();
 
 	let rowSelection = $state<RowSelectionState>({});
 
@@ -31,7 +34,7 @@
 		},
 		{
 			accessorKey: 'type',
-			header: 'Type',
+			header: 'Typ',
 			cell: ({ row }) => {
 				const type: AbsenceEntry['type'] = row.getValue('type');
 				switch (type) {
@@ -89,4 +92,4 @@
 	});
 </script>
 
-<DataTable {table} {columns} withDeleteDialog={true}></DataTable>
+<DataTable {table} {columns} {withDeleteDialog}></DataTable>

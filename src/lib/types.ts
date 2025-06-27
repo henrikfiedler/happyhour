@@ -14,6 +14,7 @@ export type Target = DBTarget
 export type TargetEntry = DBTargetEntry
 // export type AbsencePlan = DBAbsencePlan
 export type AbsenceEntry = DBAbsenceEntry
+export type HolidayData = PickPartial<DBUser, 'country' | 'state' | 'region'>;
 
 export const absenceEntryTypesArray: { value: string, label: string }[] = [
 	{

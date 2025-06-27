@@ -6,7 +6,10 @@
 	import { Checkbox } from './ui/checkbox';
 	import DataTable from './data-table.svelte';
 
-	let { targetEntries: data }: { targetEntries: TargetEntry[] } = $props();
+	let {
+		targetEntries: data,
+		withDeleteDialog
+	}: { targetEntries: TargetEntry[]; withDeleteDialog: boolean } = $props();
 
 	let rowSelection = $state<RowSelectionState>({});
 
@@ -72,7 +75,7 @@
 	});
 </script>
 
-<DataTable {table} {columns} withDeleteDialog={true}></DataTable>
+<DataTable {table} {columns} {withDeleteDialog}></DataTable>
 
 <!-- <Button
 	class="mb-2"

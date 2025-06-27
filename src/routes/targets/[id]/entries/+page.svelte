@@ -78,4 +78,5 @@
 
 <!-- <TargetEntryTableComponent targetEntries={data.targetEntries} /> -->
 
-<TargetEntryDataTable targetEntries={data.targetEntries}></TargetEntryDataTable>
+<TargetEntryDataTable targetEntries={data.targetEntries} withDeleteDialog={true}
+></TargetEntryDataTable>
