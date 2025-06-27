@@ -230,6 +230,9 @@
 	// Close Sidebar on Mobile Navigation
 	let sidebar = $state(useSidebar());
 	afterNavigate(() => sidebar.setOpenMobile(false));
+
+	// Logo
+	import logo from '$lib/assets/logo.png';
 </script>
 
 <Sidebar.Root bind:ref variant="sidebar" {...restProps}>
@@ -242,7 +245,8 @@
 							<div
 								class="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg"
 							>
-								<CommandIcon class="size-4" />
+								<!-- <CommandIcon class="size-4" /> -->
+								<img alt="HappyHour logo" src={logo} />
 							</div>
 							<div class="grid flex-1 text-left text-sm leading-tight">
 								<span class="truncate font-medium">HappyHour</span>

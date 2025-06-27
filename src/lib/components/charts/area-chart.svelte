@@ -9,7 +9,7 @@
 
 	const chartConfig = {
 		actual: { label: 'Ist', color: 'var(--chart-1)' },
-		planned: { label: 'Soll', color: 'var(--chart-2)' }
+		planned: { label: 'Plan', color: 'var(--chart-2)' }
 	} satisfies Chart.ChartConfig;
 </script>
 

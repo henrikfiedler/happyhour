@@ -1,0 +1,31 @@
+{
+    "icon": {
+        "desktop": {
+            "regularIconTransformation": {
+                "type": "none"
+            },
+            "darkIconType": "regular"
+        },
+        "touch": {
+            "transformation": {
+                "type": "none"
+            },
+            "appTitle": "HappyHour"
+        },
+        "webAppManifest": {
+            "transformation": {
+                "type": "none"
+            },
+            "backgroundColor": "#ffffff",
+            "name": "HappyHour",
+            "shortName": "HappyHour",
+            "themeColor": "#ffffff"
+        }
+    },
+    "path": "/",
+    "desktop": {
+        "darkIconTransformation": {
+            "type": "invert"
+        }
+    }
+}
