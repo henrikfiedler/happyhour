@@ -155,6 +155,13 @@ const absenceEntryInsertSchema = z.object({
       code: 'custom',
       message: 'Startdatum muss vor dem Enddatum sein.',
       input: val.value.startDate,
+      path: ['startDate']
+    })
+    val.issues.push({
+      code: 'custom',
+      message: 'Enddatum muss nach dem Startdatum sein.',
+      input: val.value.endDate,
+      path: ['endDate']
     })
   };
 })
