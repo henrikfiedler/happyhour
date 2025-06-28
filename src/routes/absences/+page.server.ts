@@ -1,7 +1,7 @@
 import { absenceEntryInsertSchema } from '$lib/schemas';
 import { fail, superValidate } from 'sveltekit-superforms';
 import type { Actions, PageServerLoad } from './$types';
-import { zod } from 'sveltekit-superforms/adapters';
+import { zod44 } from 'sveltekit-superforms/adapters';
 import { requireLogin } from '$lib/server/auth/user';
 // import { createOrUpdateAbsencePlan, getAbsencePlansByYear, getAbsencePlanYears, getSelectPlanYears } from '$lib/server/models/absence-plan';
 import { getAbsenceEntries } from '$lib/server/models/absence-entry';
@@ -33,11 +33,11 @@ export const load = (async (event) => {
         sickValue: planData.find(e => e.type === 'sick')?.plannedDays ?? 0,
         miscValue: planData.find(e => e.type === 'misc')?.plannedDays ?? 0
     }
-   const planForm = await superValidate(absencePlan, zod(planSchema)) */
+   const planForm = await superValidate(absencePlan, zod44(planSchema)) */
 
     const absenceEntries = await getAbsenceEntries(user)
 
-    const entryForm = await superValidate(zod(entrySchema))
+    const entryForm = await superValidate(zod44(entrySchema))
 
 
     return {
@@ -58,7 +58,7 @@ export const actions = {
             });
         }
 
-        const form = await superValidate(event, zod(planSchema));
+        const form = await superValidate(event, zod44(planSchema));
         console.log("🚀 ~ createPlan: ~ form:", form)
 
         if (!form.valid) {
@@ -88,7 +88,7 @@ export const actions = {
             });
         }
 
-        const form = await superValidate(event, zod(entrySchema));
+        const form = await superValidate(event, zod44(entrySchema));
         console.log("🚀 ~ createEntry: ~ form:", form)
 
         if (!form.valid) {

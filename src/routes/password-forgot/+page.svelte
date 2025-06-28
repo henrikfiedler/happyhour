@@ -2,7 +2,7 @@
 	import { forgotPasswortRequestSchema, forgotPasswortSubmitSchema } from '$lib/schemas';
 	import type { PageData } from './$types';
 	import { superForm } from 'sveltekit-superforms';
-	import { zodClient } from 'sveltekit-superforms/adapters';
+	import { zod4Client } from 'sveltekit-superforms/adapters';
 	import * as Form from '$lib/components/ui/form';
 	import { Input } from '$lib/components/ui/input';
 	import * as Alert from '$lib/components/ui/alert';
@@ -12,10 +12,10 @@
 	let { data }: { data: PageData } = $props();
 
 	const requestForm = superForm(data.requestForm, {
-		validators: zodClient(forgotPasswortRequestSchema)
+		validators: zod4Client(forgotPasswortRequestSchema)
 	});
 	const submitForm = superForm(data.submitForm, {
-		validators: zodClient(forgotPasswortSubmitSchema)
+		validators: zod4Client(forgotPasswortSubmitSchema)
 	});
 
 	const { form: requestFormData, enhance: requestEnhance, message } = requestForm;

@@ -4,7 +4,7 @@
 	import Button from '$lib/components/ui/button/button.svelte';
 	import { Separator } from '$lib/components/ui/separator';
 	import { dateProxy, superForm } from 'sveltekit-superforms';
-	import { zodClient } from 'sveltekit-superforms/adapters';
+	import { zod4Client } from 'sveltekit-superforms/adapters';
 	import { absenceEntryInsertSchema } from '$lib/schemas';
 	import * as Form from '$lib/components/ui/form';
 	import { Input } from '$lib/components/ui/input';
@@ -16,14 +16,14 @@
 	let { data }: { data: PageData } = $props();
 
 	/* const planForm = superForm(data.planForm, {
-		validators: zodClient(absencePlanInsertSchema),
+		validators: zod4Client(absencePlanInsertSchema),
 		resetForm: false
 	});
 
 	const { form: planFormData, enhance } = planForm; */
 
 	const entryForm = superForm(data.entryForm, {
-		validators: zodClient(absenceEntryInsertSchema),
+		validators: zod4Client(absenceEntryInsertSchema),
 		resetForm: true
 	});
 

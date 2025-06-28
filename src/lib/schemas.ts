@@ -1,14 +1,17 @@
 // import { targetInsertSchema } from '$lib/server/db/schema';
 import Holidays from 'date-holidays';
-import z from 'zod';
+import z from 'zod/v4';
+import de from 'zod/v4/locales/de.js';
+
+z.config(de())
 
 const loginSchema = z.object({
-  email: z.string().email().min(5).max(255),
+  email: z.email().min(5).max(255),
   password: z.string().min(8).max(100),
 });
 
 const registerSchema = loginSchema.extend({
-  privacyPolicy: z.boolean().refine(val => val === true, 'Please read and accept the privacy policy.')
+  privacyPolicy: z.boolean().refine(val => val === true, 'Bitte akzeptiere die Datenschutzerklärung.'),
 })
 
 const forgotPasswortRequestSchema = loginSchema.pick({ email: true })
@@ -30,7 +33,16 @@ const targetInsertSchema = z.object({
   sundayIsWorkday: z.boolean().default(false),
   createdAt: z.date().optional(),
   updatedAt: z.date().optional()
-});
+}).check((val) => {
+  if (val.value.endDate <= val.value.startDate) {
+    console.log('error')
+    val.issues.push({
+      code: 'custom',
+      message: 'Startdatum muss vor dem Enddatum sein.',
+      input: val.value.startDate,
+    })
+  };
+})
 
 const targetUpdateSchema = targetInsertSchema
 
@@ -40,7 +52,16 @@ const targetEntryInsertSchema = z.object({
   entryValue: z.number().positive(),
   createdAt: z.date().optional(),
   updatedAt: z.date().optional()
-});
+}).check((val) => {
+  if (val.value.endDate && val.value.endDate < val.value.startDate) {
+    console.log('error')
+    val.issues.push({
+      code: 'custom',
+      message: 'Startdatum muss vor dem Enddatum sein.',
+      input: val.value.startDate,
+    })
+  };
+})
 
 const hd = new Holidays()
 
@@ -48,12 +69,12 @@ const holidaySchema = z.object({
   country: z.string().trim().max(2).optional(),
   state: z.string().trim().max(3).optional(),
   region: z.string().trim().max(10).optional(),
-}).superRefine((val, ctx) => {
-  if (val.country && !val.state) {
-    ctx.addIssue({
+}).check((val) => {
+  if (val.value.country && !val.value.state) {
+    val.issues.push({
       code: 'custom',
-      message: 'State must be provided if country is provided',
-      path: ['state']
+      message: 'Staat muss gepflegt sein, wenn ein Land gepflegt ist.',
+      input: val.value.state,
     })
   }
 
@@ -93,18 +114,13 @@ const absenceEntryInsertSchema = z.object({
   description: z.string().trim().max(30).optional(),
   createdAt: z.date().optional(),
   updatedAt: z.date().optional()
-}).superRefine((val, ctx) => {
-  if (val.endDate && val.endDate < val.startDate) {
+}).check((val) => {
+  if (val.value.endDate && val.value.endDate < val.value.startDate) {
     console.log('error')
-    ctx.addIssue({
-      code: 'invalid_date',
-      message: 'Start date must be before end date.',
-      path: ['startDate']
-    })
-    ctx.addIssue({
-      code: 'invalid_date',
-      message: 'End date must be after start date.',
-      path: ['endDate']
+    val.issues.push({
+      code: 'custom',
+      message: 'Startdatum muss vor dem Enddatum sein.',
+      input: val.value.startDate,
     })
   };
 })

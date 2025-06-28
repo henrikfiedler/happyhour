@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	import { superForm } from 'sveltekit-superforms';
-	import { zodClient } from 'sveltekit-superforms/adapters';
+	import { zod4Client } from 'sveltekit-superforms/adapters';
 	import * as Form from '$lib/components/ui/form';
 	import { Input } from '$lib/components/ui/input';
 	import { registerSchema } from '$lib/schemas';
@@ -10,7 +10,7 @@
 	let { data }: { data: PageData } = $props();
 
 	const form = superForm(data.form, {
-		validators: zodClient(registerSchema)
+		validators: zod4Client(registerSchema)
 	});
 
 	const { form: formData, enhance } = form;

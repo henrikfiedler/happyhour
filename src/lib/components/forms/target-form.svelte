@@ -4,7 +4,7 @@
 	import SuperDebug, { dateProxy, superForm } from 'sveltekit-superforms';
 	import type { SuperValidated, Infer } from 'sveltekit-superforms';
 	import { Input } from '$lib/components/ui/input';
-	import { zodClient } from 'sveltekit-superforms/adapters';
+	import { zod4Client } from 'sveltekit-superforms/adapters';
 	import Button from '../ui/button/button.svelte';
 	import WeekDayCheckbox from './WeekDayCheckbox.svelte';
 	import { Checkbox } from '../ui/checkbox';
@@ -24,7 +24,7 @@
 	} = $props();
 
 	const form = superForm(rawForm, {
-		validators: zodClient(targetUpdateSchema),
+		validators: zod4Client(targetUpdateSchema),
 		resetForm: type === 'create'
 	});
 

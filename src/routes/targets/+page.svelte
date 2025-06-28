@@ -3,7 +3,7 @@
 	import type { PageData } from './$types';
 	import TargetForm from '$lib/components/forms/target-form.svelte';
 	import { superForm } from 'sveltekit-superforms/client';
-	import { zodClient } from 'sveltekit-superforms/adapters';
+	import { zod4Client } from 'sveltekit-superforms/adapters';
 	import { targetInsertSchema } from '$lib/schemas';
 	import { Separator } from '$lib/components/ui/separator';
 

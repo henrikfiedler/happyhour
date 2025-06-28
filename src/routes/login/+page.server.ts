@@ -1,6 +1,6 @@
 import type { PageServerLoad } from './$types';
 import { superValidate, setError, fail } from 'sveltekit-superforms';
-import { zod } from "sveltekit-superforms/adapters";
+import { zod4 } from "sveltekit-superforms/adapters";
 import { redirect } from '@sveltejs/kit';
 import { getUserFromEmail } from '$lib/server/auth/user';
 import { verifyPasswordHash } from '$lib/server/auth/password';
@@ -15,13 +15,13 @@ export const load = (async (event) => {
     }
 
     return {
-        form: await superValidate(event, zod(schema)),
+        form: await superValidate(event, zod4(schema)),
     };
 }) satisfies PageServerLoad;
 
 export const actions = {
     default: async (event) => {
-        const form = await superValidate(event, zod(schema));
+        const form = await superValidate(event, zod4(schema));
 
         if (!form.valid) {
             return fail(400, {

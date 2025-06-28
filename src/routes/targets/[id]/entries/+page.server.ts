@@ -6,7 +6,7 @@ import { targetTable, targetEntryTable } from '$lib/server/db/schema';
 import { checkEntryEndDate, checkEntryStartDate, getEntriesByTarget } from '$lib/server/models/target-entry';
 import { targetEntryInsertSchema } from '$lib/schemas';
 import { fail, superValidate, setError } from 'sveltekit-superforms';
-import { zod } from 'sveltekit-superforms/adapters';
+import { zod4 } from 'sveltekit-superforms/adapters';
 import { requireLogin } from '$lib/server/auth/user';
 import { delay } from '$lib/utils';
 
@@ -30,7 +30,7 @@ export const load = (async (event) => {
     }
 
 
-    const form = await superValidate(zod(schema))
+    const form = await superValidate(zod4(schema))
 
 
     return {
@@ -47,7 +47,7 @@ export const actions = {
                 message: "Not authenticated"
             });
         }
-        const form = await superValidate(event, zod(schema));
+        const form = await superValidate(event, zod4(schema));
 
         if (!form.valid) {
             return fail(400, {

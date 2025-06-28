@@ -1,6 +1,6 @@
 import type { PageServerLoad, Actions } from './$types';
 import { superValidate, fail, setError } from 'sveltekit-superforms';
-import { zod } from "sveltekit-superforms/adapters";
+import { zod4 } from "sveltekit-superforms/adapters";
 import { redirect } from '@sveltejs/kit';
 import { createUser } from '$lib/server/auth/user';
 import { createSession, generateSessionToken, setSessionTokenCookie } from '$lib/server/auth/session';
@@ -16,7 +16,7 @@ export const load = (async (event) => {
     }
 
     return {
-        form: await superValidate(event, zod(registerSchema)),
+        form: await superValidate(event, zod4(registerSchema)),
     };
 }) satisfies PageServerLoad;
 
@@ -24,7 +24,7 @@ export const actions = {
     default: async (event) => {
 
         // const formData = await request.formData();
-        const form = await superValidate(event, zod(registerSchema));
+        const form = await superValidate(event, zod4(registerSchema));
         console.log("🚀 ~ default: ~ form:", form)
 
         if (!form.valid) {

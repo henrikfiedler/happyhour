@@ -2,8 +2,8 @@ import type { Actions, PageServerLoad } from './$types';
 import { requireLogin } from '$lib/server/auth/user';
 import { holidaySchema } from '$lib/schemas';
 import { fail, superValidate } from 'sveltekit-superforms';
-import { zod, } from 'sveltekit-superforms/adapters';
-import { z } from 'zod';
+import { zod4, } from 'sveltekit-superforms/adapters';
+import { z } from 'zod4';
 import { db } from '$lib/server/db';
 import { userTable } from '$lib/server/db/schema';
 import { eq } from 'drizzle-orm';
@@ -25,7 +25,7 @@ export const load = (async (event) => {
         region: holidayData?.region ?? undefined
     }
 
-    const form = await superValidate(userHolidays, zod(schema));
+    const form = await superValidate(userHolidays, zod4(schema));
 
     return {
         form,
@@ -37,7 +37,7 @@ export const actions = {
     default: async (event) => {
         const user = requireLogin()
 
-        const form = await superValidate(event, zod(schema));
+        const form = await superValidate(event, zod4(schema));
 
         if (!form.valid) {
             return fail(400)

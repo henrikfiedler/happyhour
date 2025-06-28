@@ -4,7 +4,7 @@
 	import type { PageData } from './$types';
 	import * as Form from '$lib/components/ui/form';
 	import { targetEntryInsertSchema } from '$lib/schemas';
-	import { zodClient } from 'sveltekit-superforms/adapters';
+	import { zod4Client } from 'sveltekit-superforms/adapters';
 	import { Button } from '$lib/components/ui/button';
 	import TargetEntryDataTable from '$lib/components/target-entry-data-table.svelte';
 	import { Separator } from '$lib/components/ui/separator';
@@ -13,7 +13,7 @@
 
 	let { data }: { data: PageData } = $props();
 	const form = superForm(data.form, {
-		validators: zodClient(targetEntryInsertSchema)
+		validators: zod4Client(targetEntryInsertSchema)
 	});
 
 	const { form: formData, enhance, submitting } = form;

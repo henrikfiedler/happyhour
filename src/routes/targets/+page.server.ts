@@ -1,7 +1,7 @@
 import { redirect } from '@sveltejs/kit';
 import type { PageServerLoad, Actions } from './$types';
 import { fail, setError, superValidate } from 'sveltekit-superforms';
-import { zod } from 'sveltekit-superforms/adapters';
+import { zod4 } from 'sveltekit-superforms/adapters';
 import { targetInsertSchema } from '$lib/schemas';
 import { targetTable, userTable } from '$lib/server/db/schema';
 import { db } from '$lib/server/db';
@@ -16,7 +16,7 @@ const schema = targetInsertSchema
 export const load = (async (event) => {
     const user = requireLogin()
 
-    const form = await superValidate(zod(schema))
+    const form = await superValidate(zod4(schema))
 
     return {
         user: event.locals.user,
@@ -34,7 +34,7 @@ export const actions = {
                 message: "Not authenticated"
             });
         }
-        const form = await superValidate(event, zod(schema));
+        const form = await superValidate(event, zod4(schema));
 
         if (!form.valid) {
             return fail(400, {
