@@ -3,7 +3,7 @@ import { requireLogin } from '$lib/server/auth/user';
 import { holidaySchema } from '$lib/schemas';
 import { fail, superValidate } from 'sveltekit-superforms';
 import { zod4, } from 'sveltekit-superforms/adapters';
-import { z } from 'zod4';
+import { z } from 'zod/v4';
 import { db } from '$lib/server/db';
 import { userTable } from '$lib/server/db/schema';
 import { eq } from 'drizzle-orm';

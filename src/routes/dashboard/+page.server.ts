@@ -6,6 +6,7 @@ import { targetInsertSchema } from '$lib/schemas';
 import { targetTable } from '$lib/server/db/schema';
 import { db } from '$lib/server/db';
 import { getTargetsByUserId } from '$lib/server/models/target';
+import { getUserFromAuth } from '$lib/server/auth/user';
 
 const schema = targetInsertSchema
 
@@ -13,14 +14,17 @@ export const load = (async (event) => {
     if (event.locals.user === null) {
         throw redirect(302, '/login');
     }
+    const user = await getUserFromAuth(event.locals.user);
 
     const form = await superValidate(zod4(schema))
 
     const targets = await getTargetsByUserId(event.locals.user.id);
 
+
     return {
         form,
         targets,
+        user
     };
 }) satisfies PageServerLoad;
 

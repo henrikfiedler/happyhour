@@ -1,7 +1,7 @@
 import { absenceEntryInsertSchema } from '$lib/schemas';
 import { fail, superValidate } from 'sveltekit-superforms';
 import type { Actions, PageServerLoad } from './$types';
-import { zod44 } from 'sveltekit-superforms/adapters';
+import { zod4 } from 'sveltekit-superforms/adapters';
 import { requireLogin } from '$lib/server/auth/user';
 // import { createOrUpdateAbsencePlan, getAbsencePlansByYear, getAbsencePlanYears, getSelectPlanYears } from '$lib/server/models/absence-plan';
 import { getAbsenceEntries } from '$lib/server/models/absence-entry';
@@ -37,7 +37,7 @@ export const load = (async (event) => {
 
     const absenceEntries = await getAbsenceEntries(user)
 
-    const entryForm = await superValidate(zod44(entrySchema))
+    const entryForm = await superValidate(zod4(entrySchema))
 
 
     return {
@@ -88,7 +88,7 @@ export const actions = {
             });
         }
 
-        const form = await superValidate(event, zod44(entrySchema));
+        const form = await superValidate(event, zod4(entrySchema));
         console.log("🚀 ~ createEntry: ~ form:", form)
 
         if (!form.valid) {
