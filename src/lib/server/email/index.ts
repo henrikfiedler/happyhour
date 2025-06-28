@@ -16,7 +16,7 @@ console.log("🚀 ~ options:", options)
 const transporter = SMTPTransport.createTransport({
     host: PRIVATE_MAIL_HOST,
     port: Number(PRIVATE_MAIL_PORT),
-    secure: Number(PRIVATE_MAIL_SECURE) === 1,
+    // secure: Number(PRIVATE_MAIL_SECURE) === 1,
     auth: {
         user: PRIVATE_MAIL_USER,
         pass: PRIVATE_MAIL_PASS
