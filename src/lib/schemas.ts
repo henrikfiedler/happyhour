@@ -35,20 +35,46 @@ const targetInsertSchema = z.object({
   updatedAt: z.date().optional()
 }).check((val) => {
   if (val.value.endDate <= val.value.startDate) {
-    console.log('error')
     val.issues.push({
       code: 'custom',
-      message: 'Startdatum muss vor dem Enddatum sein.',
+      message: 'Startdatum muss vor dem Enddatum liegen.',
       input: val.value.startDate,
+      path: ['startDate'],
+    });
+    val.issues.push({
+      code: 'custom',
+      message: 'Enddatum muss nach dem Startdatum sein.',
+      input: val.value.endDate,
+      path: ['endDate']
     })
-  };
+  }
 })
 
 const targetUpdateSchema = targetInsertSchema
 
+const tommorrow = new Date(new Date());
+tommorrow.setHours(0, 0, 0, 0);
+tommorrow.setDate(tommorrow.getDate() + 1);
+
 const targetEntryInsertSchema = z.object({
-  startDate: z.coerce.date(),
-  endDate: z.coerce.date().optional(),
+  startDate: z.coerce.date().check((val) => {
+    if (val.value >= tommorrow) {
+      val.issues.push({
+        code: 'custom',
+        message: 'Startdatum darf nicht in der Zukunft liegen.',
+        input: val.value,
+      })
+    }
+  }),
+  endDate: z.coerce.date().optional().check((val) => {
+    if (val.value && val.value >= tommorrow) {
+      val.issues.push({
+        code: 'custom',
+        message: 'Enddatum darf nicht in der Zukunft liegen.',
+        input: val.value,
+      })
+    }
+  }),
   entryValue: z.number().positive(),
   createdAt: z.date().optional(),
   updatedAt: z.date().optional()
@@ -59,6 +85,13 @@ const targetEntryInsertSchema = z.object({
       code: 'custom',
       message: 'Startdatum muss vor dem Enddatum sein.',
       input: val.value.startDate,
+      path: ['startDate']
+    })
+    val.issues.push({
+      code: 'custom',
+      message: 'Enddatum muss nach dem Startdatum sein.',
+      input: val.value.endDate,
+      path: ['endDate']
     })
   };
 })
@@ -74,7 +107,8 @@ const holidaySchema = z.object({
     val.issues.push({
       code: 'custom',
       message: 'Staat muss gepflegt sein, wenn ein Land gepflegt ist.',
-      input: val.value.state,
+      input: val.value.country,
+      path: ['state']
     })
   }
 

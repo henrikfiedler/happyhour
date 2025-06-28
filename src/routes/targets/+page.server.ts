@@ -42,10 +42,10 @@ export const actions = {
             })
         }
 
-        if (form.data.startDate > form.data.endDate) {
+        /* if (form.data.startDate > form.data.endDate) {
             setError(form, 'startDate', 'Start date must be before end date.');
             return setError(form, 'endDate', 'Start date must be before end date.');
-        }
+        } */
 
         const [target] = await db.insert(targetTable)
             .values({

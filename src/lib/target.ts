@@ -235,10 +235,13 @@ function determineChartData(target: Target, targetEntries: TargetEntry[], absenc
                 : 0;
 
             actualSum += actualPerDay;
+            const tommorrow = new Date(new Date());
+            tommorrow.setHours(0, 0, 0, 0);
+            tommorrow.setDate(tommorrow.getDate() + 1);
             return {
                 date,
                 planned: Math.round(planSum),
-                actual: date <= new Date() ? Math.round(actualSum) : null
+                actual: date <= tommorrow ? Math.round(actualSum) : null
             };
         })
     };

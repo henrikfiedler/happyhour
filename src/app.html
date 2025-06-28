@@ -1,12 +1,44 @@
 <!doctype html>
 <html lang="%paraglide.lang%">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" href="%sveltekit.assets%/favicon.png" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		%sveltekit.head%
-	</head>
-	<body data-sveltekit-preload-data="hover">
-		<div style="display: contents">%sveltekit.body%</div>
-	</body>
+
+<head>
+	<meta charset="utf-8" />
+	<link rel="icon" href="%sveltekit.assets%/favicon.png" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<meta name="description"
+		content="HappyHour hilft dir, deine Leistung zu verfolgen, Ziele zu planen und die Balance zwischen Produktivität und Erholung zu finden. Starte jetzt kostenlos durch und behalte dein Arbeitsjahr im Blick!" />
+	<meta name="theme-color" content="#ffffff" />
+
+	<!-- Open Graph (Facebook, LinkedIn, etc.) -->
+	<meta property="og:title" content="HappyHour – Ziele, Leistung & Balance" />
+	<meta property="og:description"
+		content="Verfolge deine Leistung, plane deine Ziele und finde die Balance im Arbeitsalltag." />
+	<meta property="og:image" content="https://deine-domain.de/social-preview.png" />
+	<meta property="og:url" content="https://deine-domain.de" />
+	<meta property="og:type" content="website" />
+
+	<!-- Twitter Card -->
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title" content="HappyHour – Ziele, Leistung & Balance" />
+	<meta name="twitter:description"
+		content="Verfolge deine Leistung, plane deine Ziele und finde die Balance im Arbeitsalltag." />
+	<meta name="twitter:image" content="https://deine-domain.de/social-preview.png" />
+
+	<!-- Favicon & PWA Icons -->
+	<!-- <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+	<link rel="manifest" href="/site.webmanifest" /> -->
+
+	<!-- Apple-specific -->
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+
+	<!-- SvelteKit intern -->
+	%sveltekit.head%
+</head>
+
+<body data-sveltekit-preload-data="hover">
+	<div style="display: contents">%sveltekit.body%</div>
+</body>
+
 </html>

@@ -22,7 +22,6 @@ export const load = (async (event) => {
     const target = await db.query.targetTable.findFirst({
         where: eq(targetTable.id, event.params.id),
     });
-    console.log("🚀 ~ load ~ target:", target)
 
     if (!target) {
         throw redirect(302, '/targets');
@@ -41,16 +40,19 @@ export const actions = {
         const user = requireLogin()
         const form = await superValidate(event, zod4(schema));
 
+        console.log("🚀 ~ target: ~ form.valid:", form.valid)
+        console.log("🚀 ~ target: ~ form.errors:", form.errors)
+
         if (!form.valid) {
             return fail(400, {
                 form,
             })
         }
 
-        if (form.data.startDate > form.data.endDate) {
+        /* if (form.data.startDate > form.data.endDate) {
             setError(form, 'startDate', 'Start date must be before end date.');
             return setError(form, 'endDate', 'Start date must be before end date.');
-        }
+        } */
 
         const [target] = await db.update(targetTable)
             .set({

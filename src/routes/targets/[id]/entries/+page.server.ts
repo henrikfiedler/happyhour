@@ -3,7 +3,7 @@ import type { PageServerLoad, Actions } from './$types';
 import { eq, and, inArray } from 'drizzle-orm';
 import { db } from '$lib/server/db';
 import { targetTable, targetEntryTable } from '$lib/server/db/schema';
-import { checkEntryEndDate, checkEntryStartDate, getEntriesByTarget } from '$lib/server/models/target-entry';
+import { checkEntryEndDate, checkEntryInRange, checkEntryStartDate, getEntriesByTarget } from '$lib/server/models/target-entry';
 import { targetEntryInsertSchema } from '$lib/schemas';
 import { fail, superValidate, setError } from 'sveltekit-superforms';
 import { zod4 } from 'sveltekit-superforms/adapters';
@@ -56,19 +56,26 @@ export const actions = {
         }
 
         if (form.data.endDate && form.data.startDate > form.data.endDate) {
-            setError(form, 'startDate', 'Start date must be before end date.');
-            return setError(form, 'endDate', 'Start date must be before end date.');
+            setError(form, 'startDate', 'Startdatum muss vor dem Enddatum liegen.');
+            return setError(form, 'endDate', 'Startdatum muss vor dem Enddatum liegen.');
         }
 
         const startDateValid = await checkEntryStartDate(event.params.id, form.data.startDate);
         if (!startDateValid) {
-            return setError(form, 'startDate', 'Start date may not be within the target date range or already exists.');
+            return setError(form, 'startDate', 'Startdatum darf nicht außerhalb des Zielzeitraums liegen oder existiert bereits.');
         }
 
         const endDateValid = form.data.endDate ? await checkEntryEndDate(event.params.id, form.data.endDate) : true;
         if (!endDateValid) {
-            return setError(form, 'endDate', 'Ende date may not be within the target date range or already exists.');
+            return setError(form, 'endDate', 'Enddatum darf nicht außerhalb des Zielzeitraums liegen oder existiert bereits.');
         }
+
+        const rangeValid = form.data.endDate ? await checkEntryInRange(event.params.id, form.data.startDate, form.data.endDate) : true
+        if (!rangeValid) {
+            setError(form, 'startDate', 'Startdatum darf nicht außerhalb des Zielzeitraums liegen oder existiert bereits.');
+            return setError(form, 'endDate', 'Enddatum darf nicht außerhalb des Zielzeitraums liegen oder existiert bereits.');
+        }
+
 
         const [targetEntry] = await db.insert(targetEntryTable)
             .values({

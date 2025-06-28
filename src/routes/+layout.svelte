@@ -105,6 +105,14 @@
 	let secondaryNav = $derived(primaryNav?.items?.find((item) => item.isActive));
 </script>
 
+<svelte:head>
+	{#if primaryNav}
+		<title>{primaryNav.title} | HappyHour</title>
+	{:else}
+		<title>HappyHour</title>
+	{/if}
+</svelte:head>
+
 <ModeWatcher />
 <Sidebar.Provider>
 	<AppSidebar data={navData} user={data.user} />
