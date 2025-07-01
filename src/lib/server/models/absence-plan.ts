@@ -1,4 +1,4 @@
-/* import { desc, asc, eq, and, gte, lte, or, type InferColumnsDataTypes, type InferSelectModel } from "drizzle-orm";
+import { desc, asc, eq, and, gte, lte, or, type InferColumnsDataTypes, type InferSelectModel } from "drizzle-orm";
 import { db } from "../db";
 import { absencePlanTable, targetEntryTable, targetTable } from "../db/schema";
 import type { AbsencePlan, AuthUser, OrderByType } from "$lib/types";
@@ -77,4 +77,4 @@ export async function getAbsencePlansInDateRange(user: AuthUser, startDate: Date
         ),
         orderBy: [desc(absencePlanTable.year)]
     });
-} */
+}

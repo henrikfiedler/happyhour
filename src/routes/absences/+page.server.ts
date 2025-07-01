@@ -1,24 +1,25 @@
-import { absenceEntryInsertSchema } from '$lib/schemas';
+import { absenceEntryInsertSchema, absencePlanInsertSchema } from '$lib/schemas';
 import { fail, superValidate } from 'sveltekit-superforms';
 import type { Actions, PageServerLoad } from './$types';
 import { zod4 } from 'sveltekit-superforms/adapters';
 import { requireLogin } from '$lib/server/auth/user';
-// import { createOrUpdateAbsencePlan, getAbsencePlansByYear, getAbsencePlanYears, getSelectPlanYears } from '$lib/server/models/absence-plan';
+import { createOrUpdateAbsencePlan, getAbsencePlansByYear, getAbsencePlanYears, getSelectPlanYears } from '$lib/server/models/absence-plan';
 import { getAbsenceEntries } from '$lib/server/models/absence-entry';
 import { absenceEntryTable } from '$lib/server/db/schema';
 import { inArray, and, eq } from 'drizzle-orm';
 import { db } from '$lib/server/db';
+import { z } from 'zod/v4';
 
-// const planSchema = absencePlanInsertSchema
+const planSchema = absencePlanInsertSchema
 const entrySchema = absenceEntryInsertSchema
 
-// type PlanSchema = z.infer<typeof planSchema>;
+type PlanSchema = z.infer<typeof planSchema>;
 
 export const load = (async (event) => {
 
     const user = requireLogin()
 
-    /* const selectedYearParam = event.url.searchParams.get('selectedYear')
+    const selectedYearParam = event.url.searchParams.get('selectedYear')
 
     let selectedYear = selectedYearParam ? new Date(selectedYearParam) : new Date()
 
@@ -33,7 +34,7 @@ export const load = (async (event) => {
         sickValue: planData.find(e => e.type === 'sick')?.plannedDays ?? 0,
         miscValue: planData.find(e => e.type === 'misc')?.plannedDays ?? 0
     }
-   const planForm = await superValidate(absencePlan, zod44(planSchema)) */
+   const planForm = await superValidate(absencePlan, zod4(planSchema))
 
     const absenceEntries = await getAbsenceEntries(user)
 
@@ -41,16 +42,16 @@ export const load = (async (event) => {
 
 
     return {
-        // planForm,
-        // selectedYear,
-        // selectYears,
+        planForm,
+        selectedYear,
+        selectYears,
         entryForm,
         absenceEntries
     };
 }) satisfies PageServerLoad;
 
 export const actions = {
-    /* createPlan: async (event) => {
+    createPlan: async (event) => {
         // const user = requireLogin()
         if (event.locals.user === null) {
             return fail(401, {
@@ -58,7 +59,7 @@ export const actions = {
             });
         }
 
-        const form = await superValidate(event, zod44(planSchema));
+        const form = await superValidate(event, zod4(planSchema));
         console.log("🚀 ~ createPlan: ~ form:", form)
 
         if (!form.valid) {
@@ -79,7 +80,7 @@ export const actions = {
             form
         }
 
-    }, */
+    },
     createEntry: async (event) => {
         // const user = requireLogin()
         if (event.locals.user === null) {

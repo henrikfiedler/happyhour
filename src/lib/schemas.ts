@@ -134,12 +134,12 @@ const holidaySchema = z.object({
 
 ); */
 
-/* const absencePlanInsertSchema = z.object({
+const absencePlanInsertSchema = z.object({
   year: z.number().min(1900).max(9999),
   sickValue: z.number().min(0),
   vacationValue: z.number().min(0),
   miscValue: z.number().min(0),
-}); */
+});
 
 const absenceEntryInsertSchema = z.object({
   type: z.enum(['vacation', 'sick', 'misc']).default('vacation'),
@@ -173,7 +173,7 @@ export {
   targetEntryInsertSchema,
   targetUpdateSchema,
   holidaySchema,
-  // absencePlanInsertSchema,
+  absencePlanInsertSchema,
   absenceEntryInsertSchema,
   forgotPasswortRequestSchema,
   forgotPasswortSubmitSchema

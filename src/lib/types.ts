@@ -1,4 +1,4 @@
-import type { DBUser, DBSession, DBTarget, DBTargetEntry, DBAbsenceEntry, DBEmailVerification, DBPasswordForgot } from "./server/db/schema";
+import type { DBUser, DBSession, DBTarget, DBTargetEntry, DBAbsenceEntry, DBEmailVerification, DBPasswordForgot, DBAbsencePlan } from "./server/db/schema";
 
 // type PickPartial<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 type PickPartial<T, K extends keyof T> = { [P in K]: Partial<T[P]> };
@@ -12,7 +12,7 @@ export type EmailVerification = DBEmailVerification
 export type PasswordForgot = DBPasswordForgot
 export type Target = DBTarget
 export type TargetEntry = DBTargetEntry
-// export type AbsencePlan = DBAbsencePlan
+export type AbsencePlan = DBAbsencePlan
 export type AbsenceEntry = DBAbsenceEntry
 export type HolidayData = PickPartial<DBUser, 'country' | 'state' | 'region'>;
 

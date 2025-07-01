@@ -154,7 +154,7 @@ export const targetEntryRelations = relations(targetEntryTable, ({ one, many }) 
 
 export const absenceTypeEnum = pgEnum('absence_type', absenceEntryValues);
 
-/* export const absencePlanTable = pgTable("absence_plan", {
+export const absencePlanTable = pgTable("absence_plan", {
 	id: uuid("id").primaryKey().defaultRandom(),
 	userId: uuid("user_id")
 		.notNull()
@@ -164,14 +164,14 @@ export const absenceTypeEnum = pgEnum('absence_type', absenceEntryValues);
 	plannedDays: integer('planned_days'),
 	createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
 	updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow(),
-}) */
+})
 
-/* export const absencePlanRelations = relations(absencePlanTable, ({ one, many }) => ({
+export const absencePlanRelations = relations(absencePlanTable, ({ one, many }) => ({
 	user: one(userTable, {
 		fields: [absencePlanTable.userId],
 		references: [userTable.id]
 	}),
-})); */
+}));
 
 export const absenceEntryTable = pgTable("absence_entry", {
 	id: uuid("id").primaryKey().defaultRandom(),
@@ -199,7 +199,7 @@ export type DBEmailVerification = InferSelectModel<typeof emailVerificationTable
 export type DBPasswordForgot = InferSelectModel<typeof passwordForgotTable>;
 export type DBTarget = InferSelectModel<typeof targetTable>;
 export type DBTargetEntry = InferSelectModel<typeof targetEntryTable>;
-// export type DBAbsencePlan = InferSelectModel<typeof absencePlanTable>;
+export type DBAbsencePlan = InferSelectModel<typeof absencePlanTable>;
 export type DBAbsenceEntry = InferSelectModel<typeof absenceEntryTable>;
 
-export const targetInsertSchema = createInsertSchema(targetTable)
+// export const targetInsertSchema = createInsertSchema(targetTable)

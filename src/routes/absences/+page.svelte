@@ -5,7 +5,7 @@
 	import { Separator } from '$lib/components/ui/separator';
 	import { dateProxy, superForm } from 'sveltekit-superforms';
 	import { zod4Client } from 'sveltekit-superforms/adapters';
-	import { absenceEntryInsertSchema } from '$lib/schemas';
+	import { absenceEntryInsertSchema, absencePlanInsertSchema } from '$lib/schemas';
 	import * as Form from '$lib/components/ui/form';
 	import { Input } from '$lib/components/ui/input';
 	import AbsenceEntryDataTable from '$lib/components/absence-entry-data-table.svelte';
@@ -15,12 +15,12 @@
 
 	let { data }: { data: PageData } = $props();
 
-	/* const planForm = superForm(data.planForm, {
+	const planForm = superForm(data.planForm, {
 		validators: zod4Client(absencePlanInsertSchema),
 		resetForm: false
 	});
 
-	const { form: planFormData, enhance } = planForm; */
+	const { form: planFormData, enhance } = planForm;
 
 	const entryForm = superForm(data.entryForm, {
 		validators: zod4Client(absenceEntryInsertSchema),
@@ -36,12 +36,12 @@
 		format: 'date'
 	});
 
-	/* let selectedYear: string = $state(data.selectedYear.getFullYear().toString());
+	let selectedYear: string = $state(data.selectedYear.getFullYear().toString());
 
-	let getForm: HTMLFormElement; */
+	let getForm: HTMLFormElement;
 </script>
 
-<!-- <h2 class="mb-2 text-2xl">Geplante Abwesenheitstage</h2>
+<h2 class="mb-2 text-2xl">Geplante Abwesenheitstage</h2>
 
 <form method="get" bind:this={getForm}>
 	<div class="mb-2">
@@ -115,7 +115,7 @@
 	<Form.Button>Speichern</Form.Button>
 </form>
 
-<Separator class="my-4"></Separator> -->
+<Separator class="my-4"></Separator>
 
 <h2 class="mb-2 text-2xl">Abwesenheiten</h2>
 
