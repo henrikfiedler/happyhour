@@ -20,14 +20,14 @@
 		resetForm: false
 	});
 
-	const { form: planFormData, enhance } = planForm;
+	const { form: planFormData, enhance, submitting } = planForm;
 
 	const entryForm = superForm(data.entryForm, {
 		validators: zod4Client(absenceEntryInsertSchema),
 		resetForm: true
 	});
 
-	const { form: entryFormData, enhance: entryEnhance, submitting } = entryForm;
+	const { form: entryFormData, enhance: entryEnhance, submitting: entrySubmitting } = entryForm;
 
 	const startDateProxy = dateProxy(entryForm, 'startDate', {
 		format: 'date'
@@ -41,7 +41,7 @@
 	let getForm: HTMLFormElement;
 </script>
 
-<h2 class="mb-2 text-2xl">Geplante Abwesenheitstage</h2>
+<h2 class="mb-2 text-2xl">Geplante Abwesenheitstage für {data.selectedYear.getFullYear()}</h2>
 
 <form method="get" bind:this={getForm}>
 	<div class="mb-2">
@@ -112,7 +112,7 @@
 		<Form.Description />
 		<Form.FieldErrors />
 	</Form.Field>
-	<Form.Button>Speichern</Form.Button>
+	<SubmitButton {submitting}>Speichern</SubmitButton>
 </form>
 
 <Separator class="my-4"></Separator>
@@ -172,7 +172,7 @@
 		</Form.Field>
 	</div>
 
-	<SubmitButton {submitting}>Hinzufügen</SubmitButton>
+	<SubmitButton submitting={entrySubmitting}>Hinzufügen</SubmitButton>
 </form>
 
 <div class="mb-10">
