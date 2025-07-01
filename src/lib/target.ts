@@ -1,6 +1,10 @@
-import type { AbsenceEntry, HolidayData, Target, TargetEntry, TargetEntryComparison } from "./types";
+import type { AbsenceEntry, AbsencePlan, HolidayData, Target, TargetEntry, TargetEntryComparison } from "./types";
 import Holidays from 'date-holidays';
 
+
+function getISODateString(date: Date): string {
+    return date.toISOString().slice(0, 10);
+}
 
 // Hilfsfunktion: Gibt alle Tage zwischen zwei Daten als Array von Date-Objekten zurück
 function getDateRange(start: Date, end: Date | null): string[] {
@@ -113,9 +117,9 @@ function getTotalAbsences(absenceEntries: AbsenceEntry[]): number {
 function getTotalNonWorkingDays(
     target: Target,
     absenceEntries: AbsenceEntry[],
-    holidayData: HolidayData | undefined
-    // absencePlans: AbsencePlan[]
-): number {
+    holidayData: HolidayData | undefined,
+    absencePlans: AbsencePlan[]
+): Set<string> {
     const nonWorkingDays = new Set<string>();
 
     const days = getDateRange(target.startDate, target.endDate);
@@ -141,7 +145,7 @@ function getTotalNonWorkingDays(
     }
 
     // Planned Absences
-    /* for (const plan of absencePlans) {
+    for (const plan of absencePlans) {
         const plannedTotalDays = plan.plannedDays ?? 0;
         const daysInPlanYear = days.filter((e) => new Date(e).getFullYear() === plan.year).length;
         const daysInYear = getDateRange(
@@ -169,11 +173,10 @@ function getTotalNonWorkingDays(
             }, 0);
 
         const missingDays = plannedDays - actualDaysInYear;
-        console.log('🚀 ~ missingDays:', missingDays);
 
         if (missingDays > 0) {
             // Füge fehlende geplante Tage als nicht-Arbeitstage hinzu
-            const daysInYear = days.filter((date) => new Date(date).getFullYear() === plan.year);
+            const daysInYear = days.filter((date) => new Date(date).getFullYear() === plan.year).reverse();
             let added = 0;
             for (const day of daysInYear) {
                 if (added >= missingDays) break;
@@ -183,41 +186,57 @@ function getTotalNonWorkingDays(
                 }
             }
         }
-    } */
+    }
 
-    return nonWorkingDays.size;
+    // return nonWorkingDays.size;
+    return nonWorkingDays;
 
     /* const days = getDateRange(startDate, endDate);
     return days.filter((date) => checkIsHoliday(new Date(date))).length; */
 }
 
-function getISODateString(date: Date): string {
-    return date.toISOString().slice(0, 10);
-}
+type ChartOutput = { actualValue: number, actualDays: number, plannedDays: number, chartData: TargetEntryComparison[] }
 
-function determineChartData(target: Target, targetEntries: TargetEntry[], absenceEntries: AbsenceEntry[], holidayData: HolidayData | undefined): { planPerDay: number; chartData: TargetEntryComparison[] } {
+function determineChartData(target: Target, targetEntries: TargetEntry[], absenceEntries: AbsenceEntry[], absencePlans: AbsencePlan[], holidayData: HolidayData | undefined): ChartOutput {
     const days = getDateRange(target.startDate, target.endDate);
     // const totalOffdays = getTotalOffdays(data.target.startDate, data.target.endDate);
     // const totalHolidays = getTotalHolidays(data.target.startDate, data.target.endDate);
     // const totalAbsences = getTotalAbsences(data.absenceEntries);
-    const totalNonWorkingDays = getTotalNonWorkingDays(
+    const totalNonWorkingDaysSet = getTotalNonWorkingDays(
         target,
         absenceEntries,
-        holidayData
-        // data.absencePlans
+        holidayData,
+        absencePlans
     );
+    const totalNonWorkingDays = totalNonWorkingDaysSet.size;
     // const totalWorkdays = days.length - totalOffdays - totalHolidays - totalAbsences;
     const totalWorkdays = days.length - totalNonWorkingDays;
     const planPerDay = totalWorkdays > 0 ? target.targetValue / totalWorkdays : 0;
 
     let planSum = 0;
     let actualSum = 0;
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const pastWorkdays = days.filter((dateStr) => {
+        const date = new Date(dateStr);
+        // return date <= today && checkIsWorkday(date, target, holidayData, absenceEntries);
+        return date <= today && !totalNonWorkingDaysSet.has(getISODateString(date))
+    });
+    /* const remainingWorkdays = days.filter((dateStr) => {
+        const date = new Date(dateStr);
+        // return date > today && checkIsWorkday(date, target, holidayData, absenceEntries);
+        return date > today && !totalNonWorkingDaysSet.has(getISODateString(date))
+    }); */
+
+
     return {
-        planPerDay,
         chartData: days.map((dateString, i) => {
             const date = new Date(dateString);
 
-            planSum += checkIsWorkday(date, target, holidayData, absenceEntries) ? planPerDay : 0;
+            // planSum += checkIsWorkday(date, target, holidayData, absenceEntries) ? planPerDay : 0;
+            planSum += !totalNonWorkingDaysSet.has(getISODateString(date)) ? planPerDay : 0;
 
             const entry = targetEntries.find((entry) => {
                 return entry.endDate
@@ -243,7 +262,10 @@ function determineChartData(target: Target, targetEntries: TargetEntry[], absenc
                 planned: Math.round(planSum),
                 actual: date <= tommorrow ? Math.round(actualSum) : null
             };
-        })
+        }),
+        plannedDays: totalWorkdays,
+        actualDays: pastWorkdays.length,
+        actualValue: actualSum
     };
 }
 

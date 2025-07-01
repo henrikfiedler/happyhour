@@ -78,7 +78,7 @@
 					title: 'Abwesenheiten',
 					url: '/absences',
 					icon: House,
-					activeType: 'exact'
+					activeType: 'include'
 				});
 			})()
 		],

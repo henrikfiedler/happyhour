@@ -12,7 +12,7 @@
 	import AbsenceEntryDataTable from '$lib/components/absence-entry-data-table.svelte';
 
 	let today = new Date();
-	const { target, absenceEntries, targetEntries } = createDemoData(today);
+	const { target, absenceEntries, absencePlans, targetEntries } = createDemoData(today);
 
 	let holidayData: HolidayData | undefined = {
 		country: 'DE',
@@ -20,7 +20,7 @@
 		state: null
 	};
 
-	let { chartData } = determineChartData(target, targetEntries, absenceEntries, holidayData);
+	let { chartData } = determineChartData(target, targetEntries, absenceEntries, absencePlans, holidayData);
 
 	let targetValueToDate =
 		chartData.find((data) => data.date.toISOString().slice(0, 10) === getISODateString(new Date()))

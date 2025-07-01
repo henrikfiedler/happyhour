@@ -15,6 +15,13 @@
       "when": 1751065910553,
       "tag": "0001_mature_firebird",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1751411609032,
+      "tag": "0002_great_leopardon",
+      "breakpoints": true
     }
   ]
 }
