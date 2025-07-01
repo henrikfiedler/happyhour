@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { AreaChart } from 'layerchart';
 	import { scaleUtc } from 'd3-scale';
-	import { curveNatural } from 'd3-shape';
+	import { curveNatural, curveStepAfter } from 'd3-shape';
 	import * as Chart from '$lib/components/ui/chart';
 	import type { TargetEntryComparison } from '$lib/types';
 
@@ -33,7 +33,7 @@
 		]}
 		props={{
 			area: {
-				curve: curveNatural,
+				curve: curveStepAfter,
 				'fill-opacity': 0.3,
 				line: { class: 'stroke-1' },
 				motion: 'tween'
