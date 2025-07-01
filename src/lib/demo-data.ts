@@ -1,4 +1,4 @@
-import type { Target, TargetEntry, AbsenceEntry } from '$lib/types';
+import type { Target, TargetEntry, AbsenceEntry, AbsencePlan } from '$lib/types';
 
 // Hilfsfunktionen für dynamische Datumsberechnung
 export function getFirstDayOfPreviousMonth(date: Date) {
@@ -159,7 +159,8 @@ export function createDemoTargetEntries(target: Target, today: Date, absenceEntr
 
 export function createDemoData(today: Date) {
     const target = createDemoTarget(today);
+    const absencePlans: AbsencePlan[] = []
     const absenceEntries = createDemoAbsenceEntries(target, today);
     const targetEntries = createDemoTargetEntries(target, today, absenceEntries);
-    return { target, absenceEntries, targetEntries };
+    return { target, absencePlans, absenceEntries, targetEntries };
 }
