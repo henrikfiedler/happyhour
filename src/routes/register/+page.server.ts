@@ -25,7 +25,6 @@ export const actions = {
 
         // const formData = await request.formData();
         const form = await superValidate(event, zod4(registerSchema));
-        console.log("🚀 ~ default: ~ form:", form)
 
         if (!form.valid) {
             return fail(400, {

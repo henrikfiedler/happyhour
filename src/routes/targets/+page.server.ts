@@ -28,7 +28,6 @@ export const load = (async (event) => {
 
 export const actions = {
     target: async (event) => {
-        console.log("🚀 ~ target: ~ event:", event)
         if (event.locals.user === null) {
             return fail(401, {
                 message: "Not authenticated"
@@ -65,7 +64,6 @@ export const actions = {
 
     },
     favorite: async (event) => {
-        console.log("🚀 ~ favorite: ~ event:", event)
         if (event.locals.user === null) {
             return fail(401, {
                 message: "Not authenticated"

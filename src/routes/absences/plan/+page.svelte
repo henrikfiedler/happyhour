@@ -36,7 +36,6 @@
 	});
 
 	function handleChange() {
-		console.log('Selected year changed:', selectedYear);
 		getForm.requestSubmit();
 	}
 </script>

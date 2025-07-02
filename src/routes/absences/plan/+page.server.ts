@@ -20,7 +20,6 @@ export const load = (async (event) => {
     const user = requireLogin()
 
     const selectedYearParam = event.url.searchParams.get('selectedYear')
-    console.log("🚀 ~ load ~ selectedYearParam:", selectedYearParam)
 
     let selectedYear = selectedYearParam ? new Date(selectedYearParam) : new Date()
 
