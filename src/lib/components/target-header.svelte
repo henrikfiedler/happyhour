@@ -66,7 +66,7 @@
 					</span>
 				</Card.Description>
 				<Card.Title class="text-lg font-semibold lg:text-2xl">
-					{plannedValueToDate.toLocaleString()}
+					{Math.round(plannedValueToDate).toLocaleString()}
 				</Card.Title>
 			</Card.Header>
 		</Card.Root>
