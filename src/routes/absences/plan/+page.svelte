@@ -30,6 +30,7 @@
 
 	$effect(() => {
 		if (getForm && selectedYear && selectedYear !== oldYear) {
+			oldYear = selectedYear;
 			getForm.requestSubmit();
 		}
 	});
