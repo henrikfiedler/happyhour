@@ -57,24 +57,8 @@ tommorrow.setHours(0, 0, 0, 0);
 tommorrow.setDate(tommorrow.getDate() + 1);
 
 const targetEntryInsertSchema = z.object({
-  startDate: z.coerce.date().check((val) => {
-    if (val.value >= tommorrow) {
-      val.issues.push({
-        code: 'custom',
-        message: 'Startdatum darf nicht in der Zukunft liegen.',
-        input: val.value,
-      })
-    }
-  }),
-  endDate: z.coerce.date().optional().check((val) => {
-    if (val.value && val.value >= tommorrow) {
-      val.issues.push({
-        code: 'custom',
-        message: 'Enddatum darf nicht in der Zukunft liegen.',
-        input: val.value,
-      })
-    }
-  }),
+  startDate: z.coerce.date(),
+  endDate: z.coerce.date().optional(),
   entryValue: z.number().positive(),
   createdAt: z.date().optional(),
   updatedAt: z.date().optional()
