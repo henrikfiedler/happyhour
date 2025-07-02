@@ -48,8 +48,9 @@
 			<Card.Header>
 				<Card.Description>
 					Plan<br />
-					<!-- <span class="text-xs">bis <LocalDateComponent date={data.target.endDate} /></span> -->
-					<span class="text-xs">bis Ende</span>
+					<span class="text-xs">
+						bis <LocalDateComponent date={target.endDate} />
+					</span>
 				</Card.Description>
 				<Card.Title class="text-lg font-semibold lg:text-2xl">
 					{target.targetValue.toLocaleString()}
@@ -61,7 +62,7 @@
 				<Card.Description>
 					Plan<br />
 					<span class="text-xs">
-						bis <LocalDateComponent date={lastActualDate}></LocalDateComponent>
+						bis <LocalDateComponent date={lastActualDate} />
 					</span>
 				</Card.Description>
 				<Card.Title class="text-lg font-semibold lg:text-2xl">
@@ -74,7 +75,7 @@
 				<Card.Description>
 					Ist<br />
 					<span class="text-xs">
-						bis <LocalDateComponent date={lastActualDate}></LocalDateComponent>
+						bis <LocalDateComponent date={lastActualDate} />
 					</span>
 				</Card.Description>
 				<Card.Title class="text-lg font-semibold lg:text-2xl">
@@ -83,13 +84,6 @@
 				</Card.Title>
 			</Card.Header>
 		</Card.Root>
-		<!-- {@render headerCard('Start', data.target.startDate)}
-		{@render headerCard('Ende', data.target.endDate)}
-		{@render headerCard('Plan', targetValueToDate, data.target.targetValue)}
-		{@render headerCard(
-			'Ist',
-			data.targetEntries.reduce((acc, entry) => acc + entry.entryValue, 0)
-		)} -->
 	</div>
 	<div class="grid grid-cols-3 gap-3">
 		<Card.Root class="@container/card">
@@ -97,7 +91,7 @@
 				<Card.Description>
 					Plan <br class="block sm:hidden" />/ Tag<br />
 					<span class="text-xs">
-						bis <LocalDateComponent date={lastActualDate}></LocalDateComponent>
+						bis <LocalDateComponent date={lastActualDate} />
 					</span>
 				</Card.Description>
 				<Card.Title class="text-lg font-semibold lg:text-2xl">
@@ -110,7 +104,7 @@
 				<Card.Description>
 					Ist <br class="block sm:hidden" />/ Tag<br />
 					<span class="text-xs">
-						bis <LocalDateComponent date={lastActualDate}></LocalDateComponent>
+						bis <LocalDateComponent date={lastActualDate} />
 					</span>
 				</Card.Description>
 				<Card.Title class="text-lg font-semibold lg:text-2xl">
@@ -123,15 +117,14 @@
 				<Card.Description>
 					Soll <br class="block sm:hidden" />/ Tag<br />
 					<!-- <span class="text-xs">bis <LocalDateComponent date={data.target.endDate} /></span> -->
-					<span class="text-xs">bis Ende</span>
+					<span class="text-xs">
+						bis <LocalDateComponent date={target.endDate} />
+					</span>
 				</Card.Description>
 				<Card.Title class="text-lg font-semibold lg:text-2xl">
 					{requiredValuePerDay.toLocaleString()}
 				</Card.Title>
 			</Card.Header>
 		</Card.Root>
-		<!-- {@render headerCard('Plan / Tag', plannedValuePerDay)}
-		{@render headerCard('Ist / Tag', actualValuePerDay)}
-		{@render headerCard('Rest / Tag', requiredValuePerDay)} -->
 	</div>
 </div>
