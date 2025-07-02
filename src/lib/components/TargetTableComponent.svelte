@@ -54,7 +54,7 @@
 				<Table.Cell>
 					<LocalDateComponent date={target.endDate} />
 				</Table.Cell>
-				<Table.Cell>{target.targetValue}</Table.Cell>
+				<Table.Cell>{target.targetValue.toLocaleString()}</Table.Cell>
 				<Table.Cell class="px-2">
 					<span class="text-muted-foreground"> &gt; </span>
 				</Table.Cell>

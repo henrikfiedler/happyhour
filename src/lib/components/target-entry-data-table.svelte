@@ -50,7 +50,11 @@
 		},
 		{
 			accessorKey: 'entryValue',
-			header: 'Leistung'
+			header: 'Leistung',
+			cell: ({ row }) => {
+				const value = row.getValue('entryValue') as number;
+				return value.toLocaleString()
+			}
 		}
 	];
 

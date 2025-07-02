@@ -134,7 +134,7 @@
 					<span class="text-xs">bis Ende</span>
 				</Card.Description>
 				<Card.Title class="text-lg font-semibold lg:text-2xl">
-					{data.target.targetValue}
+					{data.target.targetValue.toLocaleString()}
 				</Card.Title>
 			</Card.Header>
 		</Card.Root>
@@ -145,7 +145,7 @@
 					<span class="text-xs">bis heute</span>
 				</Card.Description>
 				<Card.Title class="text-lg font-semibold lg:text-2xl">
-					{targetValueToDate}
+					{targetValueToDate.toLocaleString()}
 				</Card.Title>
 			</Card.Header>
 		</Card.Root>
@@ -156,7 +156,7 @@
 					<span class="text-xs">bis heute</span>
 				</Card.Description>
 				<Card.Title class="text-lg font-semibold lg:text-2xl">
-					{data.targetEntries.reduce((acc, entry) => acc + entry.entryValue, 0)}
+					{data.targetEntries.reduce((acc, entry) => acc + entry.entryValue, 0).toLocaleString()}
 				</Card.Title>
 			</Card.Header>
 		</Card.Root>

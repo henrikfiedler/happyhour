@@ -64,7 +64,7 @@
 			<Form.Control>
 				{#snippet children({ props })}
 					<Form.Label>Leistung</Form.Label>
-					<Input type="number" step="0.01" {...props} bind:value={$formData.entryValue} />
+					<Input type="number" step="0.25" {...props} bind:value={$formData.entryValue} />
 				{/snippet}
 			</Form.Control>
 			<Form.Description />
