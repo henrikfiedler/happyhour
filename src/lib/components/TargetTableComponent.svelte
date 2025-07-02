@@ -55,8 +55,8 @@
 					<LocalDateComponent date={target.endDate} />
 				</Table.Cell>
 				<Table.Cell class="hidden sm:table-cell">{target.targetValue.toLocaleString()}</Table.Cell>
-				<Table.Cell class="px-2">
-					<Button href={`targets/${target.id}/entries`} variant="outline" size="icon">
+				<Table.Cell>
+					<Button href={`/targets/${target.id}`} variant="outline" size="icon">
 						<span class="sr-only">Einträge anzeigen</span>
 						<span class="text-muted-foreground"> &gt; </span>
 					</Button>
