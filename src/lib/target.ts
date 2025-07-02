@@ -257,7 +257,7 @@ function determineChartData(target: Target, targetEntries: TargetEntry[], absenc
 
             if (actualPerDay > 0) {
                 lastActualDate = date;
-                plannedValueToDate = planSum;
+                plannedValueToDate = Math.round(planSum);
                 actualSum += actualPerDay;
             }
             const tommorrow = new Date(new Date());
