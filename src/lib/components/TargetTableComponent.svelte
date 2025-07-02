@@ -17,17 +17,17 @@
 		<Table.Row>
 			<Table.Head></Table.Head>
 			<Table.Head>Bezeichnung</Table.Head>
-			<Table.Head>Start</Table.Head>
-			<Table.Head>Ende</Table.Head>
-			<Table.Head>Zielwert</Table.Head>
+			<Table.Head class="hidden sm:table-cell">Start</Table.Head>
+			<Table.Head class="hidden sm:table-cell">Ende</Table.Head>
+			<Table.Head class="hidden sm:table-cell">Zielwert</Table.Head>
 			<Table.Head></Table.Head>
 			<!-- <Table.Head></Table.Head> -->
 		</Table.Row>
 	</Table.Header>
 	<Table.Body>
 		{#each targets as target (target)}
-			<Table.Row class="relative">
-				<Table.Cell class="relative z-20">
+			<Table.Row>
+				<Table.Cell>
 					<form action="/targets?/favorite" method="POST" use:enhance>
 						<input type="hidden" name="targetId" value={target.id} />
 						<Button type="submit" variant="ghost" name="targetId" size="icon">
@@ -48,27 +48,19 @@
 				<Table.Cell>
 					{target.description}
 				</Table.Cell>
-				<Table.Cell>
+				<Table.Cell class="hidden sm:table-cell">
 					<LocalDateComponent date={target.startDate} />
 				</Table.Cell>
-				<Table.Cell>
+				<Table.Cell class="hidden sm:table-cell">
 					<LocalDateComponent date={target.endDate} />
 				</Table.Cell>
-				<Table.Cell>{target.targetValue.toLocaleString()}</Table.Cell>
+				<Table.Cell class="hidden sm:table-cell">{target.targetValue.toLocaleString()}</Table.Cell>
 				<Table.Cell class="px-2">
-					<span class="text-muted-foreground"> &gt; </span>
+					<Button href={`targets/${target.id}/entries`} variant="outline" size="icon">
+						<span class="sr-only">Einträge anzeigen</span>
+						<span class="text-muted-foreground"> &gt; </span>
+					</Button>
 				</Table.Cell>
-				<a href={`targets/${target.id}`} class="absolute inset-0 z-10"></a>
-				<!-- <Table.Cell>
-					<Button href="targets/{target.id}">Detail</Button>
-				</Table.Cell> -->
-				<!-- <Table.Cell>
-					<form action="/targets?/delete" method="post" use:enhance>
-						<Button type="submit" name="targetId" value={target.id} variant="destructive">
-							Löschen
-						</Button>
-					</form>
-				</Table.Cell> -->
 			</Table.Row>
 		{/each}
 	</Table.Body>
