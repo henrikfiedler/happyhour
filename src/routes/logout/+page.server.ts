@@ -8,7 +8,6 @@ export const load = (async () => {
 
 export const actions = {
     default: async (event) => {
-        console.log("🚀 ~ default: ~ event:", event)
         if (event.locals.session === null) {
             return fail(401, {
                 message: "Not authenticated"

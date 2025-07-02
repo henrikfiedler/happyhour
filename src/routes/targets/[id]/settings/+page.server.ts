@@ -40,9 +40,6 @@ export const actions = {
         const user = requireLogin()
         const form = await superValidate(event, zod4(schema));
 
-        console.log("🚀 ~ target: ~ form.valid:", form.valid)
-        console.log("🚀 ~ target: ~ form.errors:", form.errors)
-
         if (!form.valid) {
             return fail(400, {
                 form,
@@ -70,7 +67,6 @@ export const actions = {
             })
         }
 
-        console.log("🚀 ~ default: ~ form:", form)
         return {
             form
         }

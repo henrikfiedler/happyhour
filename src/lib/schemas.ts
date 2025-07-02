@@ -80,7 +80,6 @@ const targetEntryInsertSchema = z.object({
   updatedAt: z.date().optional()
 }).check((val) => {
   if (val.value.endDate && val.value.endDate < val.value.startDate) {
-    console.log('error')
     val.issues.push({
       code: 'custom',
       message: 'Startdatum muss vor dem Enddatum sein.',
@@ -113,7 +112,6 @@ const holidaySchema = z.object({
   }
 
   /* const regions = val.country && val.state ? Object.entries(hd.getRegions(val.country, val.state) ?? []) : []
-  console.log("🚀 ~ regions:", regions)
 
   if (val.country && val.state && !val.region && regions.length) {
     ctx.addIssue({
@@ -150,7 +148,6 @@ const absenceEntryInsertSchema = z.object({
   updatedAt: z.date().optional()
 }).check((val) => {
   if (val.value.endDate && val.value.endDate < val.value.startDate) {
-    console.log('error')
     val.issues.push({
       code: 'custom',
       message: 'Startdatum muss vor dem Enddatum sein.',

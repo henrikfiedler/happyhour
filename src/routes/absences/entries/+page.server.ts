@@ -35,7 +35,6 @@ export const actions = {
         }
 
         const form = await superValidate(event, zod4(schema));
-        console.log("🚀 ~ createEntry: ~ form:", form)
 
         if (!form.valid) {
             return fail(400, {

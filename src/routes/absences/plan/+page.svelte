@@ -30,12 +30,12 @@
 
 	$effect(() => {
 		if (getForm && selectedYear && selectedYear !== oldYear) {
+			oldYear = selectedYear;
 			getForm.requestSubmit();
 		}
 	});
 
 	function handleChange() {
-		console.log('Selected year changed:', selectedYear);
 		getForm.requestSubmit();
 	}
 </script>

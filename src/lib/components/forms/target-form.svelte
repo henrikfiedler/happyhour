@@ -30,8 +30,6 @@
 
 	const { form: formData, enhance, submitting, errors } = form;
 
-	$effect(() => console.log('Form data:', $errors));
-
 	const startDateProxy = dateProxy(form, 'startDate', {
 		format: 'date'
 	});
@@ -39,7 +37,6 @@
 		format: 'date'
 	});
 
-	$effect(() => console.log());
 </script>
 
 <form class={className} action="?/target" method="POST" use:enhance>
