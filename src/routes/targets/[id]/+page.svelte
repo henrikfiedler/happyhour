@@ -7,6 +7,7 @@
 	import * as Card from '$lib/components/ui/card';
 	import Holidays from 'date-holidays';
 	import { determineChartData, getISODateString } from '$lib/target';
+	import TargetHeader from '$lib/components/target-header.svelte';
 
 	let { data }: { data: PageData } = $props();
 
@@ -22,7 +23,7 @@
 	const planPerDay = totalWorkdays > 1 ? targetValue / totalWorkdays : targetValue;
  */
 	// Kumulierte Planwerte
-	let planSum = 0;
+	// let planSum = 0;
 	/* const planData = days.map((date, i) => {
 		// planSum = i === 0 ? 0 : planSum + planPerDay;
 		// planSum = i === 0 ? planPerDay : planSum + planPerDay;
@@ -68,20 +69,21 @@
 		actual: actualData[i].actual
 	})); */
 
-	const { plannedDays, actualDays, actualValue, chartData } = determineChartData(
-		data.target,
-		data.targetEntries,
-		data.absenceEntries,
-		data.absencePlans,
-		data.holidayData
-	);
+	let { chartData, plannedDays, actualDays, actualValue, lastActualDate, plannedValueToDate } =
+		determineChartData(
+			data.target,
+			data.targetEntries,
+			data.absenceEntries,
+			data.absencePlans,
+			data.holidayData
+		);
 
-	let targetValueToDate =
+	/* let targetValueToDate =
 		chartData.find((data) => getISODateString(data.date) === getISODateString(new Date()))
-			?.planned ?? chartData[chartData.length - 1].planned;
+			?.planned ?? chartData[chartData.length - 1].planned; */
 
-	let plannedValuePerDay = targetValueToDate
-		? Math.round((targetValueToDate / actualDays) * 100) / 100
+	let plannedValuePerDay = plannedValueToDate
+		? Math.round((plannedValueToDate / actualDays) * 100) / 100
 		: 0;
 
 	let actualValuePerDay = Math.round((actualValue / actualDays) * 100) / 100;
@@ -106,107 +108,16 @@
 	</Card.Root>
 {/snippet}
 
-<div class="mb-5 grid grid-cols-1 gap-3">
-	<div class="grid grid-cols-2 gap-3">
-		<Card.Root class="@container/card">
-			<Card.Header>
-				<Card.Description>Start</Card.Description>
-				<Card.Title class="text-lg font-semibold lg:text-2xl">
-					<LocalDateComponent date={data.target.startDate} />
-				</Card.Title>
-			</Card.Header>
-		</Card.Root>
-		<Card.Root class="@container/card">
-			<Card.Header>
-				<Card.Description>Ende</Card.Description>
-				<Card.Title class="text-lg font-semibold lg:text-2xl">
-					<LocalDateComponent date={data.target.endDate} />
-				</Card.Title>
-			</Card.Header>
-		</Card.Root>
-	</div>
-	<div class="grid grid-cols-3 gap-3">
-		<Card.Root class="@container/card">
-			<Card.Header>
-				<Card.Description>
-					Plan<br />
-					<!-- <span class="text-xs">bis <LocalDateComponent date={data.target.endDate} /></span> -->
-					<span class="text-xs">bis Ende</span>
-				</Card.Description>
-				<Card.Title class="text-lg font-semibold lg:text-2xl">
-					{data.target.targetValue.toLocaleString()}
-				</Card.Title>
-			</Card.Header>
-		</Card.Root>
-		<Card.Root class="@container/card">
-			<Card.Header>
-				<Card.Description>
-					Plan<br />
-					<span class="text-xs">bis heute</span>
-				</Card.Description>
-				<Card.Title class="text-lg font-semibold lg:text-2xl">
-					{targetValueToDate.toLocaleString()}
-				</Card.Title>
-			</Card.Header>
-		</Card.Root>
-		<Card.Root class="@container/card">
-			<Card.Header>
-				<Card.Description>
-					Ist<br />
-					<span class="text-xs">bis heute</span>
-				</Card.Description>
-				<Card.Title class="text-lg font-semibold lg:text-2xl">
-					{data.targetEntries.reduce((acc, entry) => acc + entry.entryValue, 0).toLocaleString()}
-				</Card.Title>
-			</Card.Header>
-		</Card.Root>
-		<!-- {@render headerCard('Start', data.target.startDate)}
-		{@render headerCard('Ende', data.target.endDate)}
-		{@render headerCard('Plan', targetValueToDate, data.target.targetValue)}
-		{@render headerCard(
-			'Ist',
-			data.targetEntries.reduce((acc, entry) => acc + entry.entryValue, 0)
-		)} -->
-	</div>
-	<div class="grid grid-cols-3 gap-3">
-		<Card.Root class="@container/card">
-			<Card.Header>
-				<Card.Description>
-					Plan <br class="block sm:hidden" />/ Tag<br />
-					<span class="text-xs">bis heute</span>
-				</Card.Description>
-				<Card.Title class="text-lg font-semibold lg:text-2xl">
-					{plannedValuePerDay.toLocaleString()}
-				</Card.Title>
-			</Card.Header>
-		</Card.Root>
-		<Card.Root class="@container/card">
-			<Card.Header>
-				<Card.Description>
-					Ist <br class="block sm:hidden" />/ Tag<br />
-					<span class="text-xs">bis heute</span>
-				</Card.Description>
-				<Card.Title class="text-lg font-semibold lg:text-2xl">
-					{actualValuePerDay.toLocaleString()}
-				</Card.Title>
-			</Card.Header>
-		</Card.Root>
-		<Card.Root class="@container/card">
-			<Card.Header>
-				<Card.Description>
-					Soll <br class="block sm:hidden" />/ Tag<br />
-					<!-- <span class="text-xs">bis <LocalDateComponent date={data.target.endDate} /></span> -->
-					<span class="text-xs">bis Ende</span>
-				</Card.Description>
-				<Card.Title class="text-lg font-semibold lg:text-2xl">
-					{requiredValuePerDay.toLocaleString()}
-				</Card.Title>
-			</Card.Header>
-		</Card.Root>
-		<!-- {@render headerCard('Plan / Tag', plannedValuePerDay)}
-		{@render headerCard('Ist / Tag', actualValuePerDay)}
-		{@render headerCard('Rest / Tag', requiredValuePerDay)} -->
-	</div>
+<div class="mb-5">
+	<TargetHeader
+		target={data.target}
+		{plannedValueToDate}
+		{actualValue}
+		{plannedValuePerDay}
+		{actualValuePerDay}
+		{requiredValuePerDay}
+		{lastActualDate}
+	></TargetHeader>
 </div>
 
 <AreaChart {chartData}></AreaChart>

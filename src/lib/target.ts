@@ -195,7 +195,7 @@ function getTotalNonWorkingDays(
     return days.filter((date) => checkIsHoliday(new Date(date))).length; */
 }
 
-type ChartOutput = { actualValue: number, actualDays: number, plannedDays: number, chartData: TargetEntryComparison[] }
+type ChartOutput = { chartData: TargetEntryComparison[], actualValue: number, actualDays: number, plannedDays: number, plannedValueToDate: number, lastActualDate: Date };
 
 function determineChartData(target: Target, targetEntries: TargetEntry[], absenceEntries: AbsenceEntry[], absencePlans: AbsencePlan[], holidayData: HolidayData | undefined): ChartOutput {
     const days = getDateRange(target.startDate, target.endDate);
@@ -230,6 +230,8 @@ function determineChartData(target: Target, targetEntries: TargetEntry[], absenc
         return date > today && !totalNonWorkingDaysSet.has(getISODateString(date))
     }); */
 
+    let lastActualDate: Date = target.startDate;
+    let plannedValueToDate = 0;
 
     return {
         chartData: days.map((dateString, i) => {
@@ -253,19 +255,26 @@ function determineChartData(target: Target, targetEntries: TargetEntry[], absenc
                 getDateRange(entry.startDate, entry?.endDate).length
                 : 0;
 
-            actualSum += actualPerDay;
+            if (actualPerDay > 0) {
+                lastActualDate = date;
+                plannedValueToDate = planSum;
+                actualSum += actualPerDay;
+            }
             const tommorrow = new Date(new Date());
             tommorrow.setHours(0, 0, 0, 0);
             tommorrow.setDate(tommorrow.getDate() + 1);
             return {
                 date,
                 planned: Math.round(planSum),
-                actual: date <= tommorrow ? Math.round(actualSum) : null
+                // actual: date <= tommorrow ? Math.round(actualSum) : null
+                actual: actualPerDay > 0 || targetEntries.find((entry) => getISODateString(entry.startDate) > dateString) ? Math.round(actualSum) : null
             };
         }),
         plannedDays: totalWorkdays,
         actualDays: pastWorkdays.length,
-        actualValue: actualSum
+        actualValue: actualSum,
+        lastActualDate,
+        plannedValueToDate
     };
 }
 
