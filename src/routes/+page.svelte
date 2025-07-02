@@ -10,6 +10,10 @@
 	import { createDemoData } from '$lib/demo-data';
 	import TargetEntryDataTable from '$lib/components/target-entry-data-table.svelte';
 	import AbsenceEntryDataTable from '$lib/components/absence-entry-data-table.svelte';
+	import type { PageData } from './$types';
+	import TargetHeader from '$lib/components/target-header.svelte';
+
+	let { data }: { data: PageData } = $props();
 
 	let today = new Date();
 	const { target, absenceEntries, absencePlans, targetEntries } = createDemoData(today);
@@ -20,11 +24,17 @@
 		state: null
 	};
 
-	let { chartData } = determineChartData(target, targetEntries, absenceEntries, absencePlans, holidayData);
+	let { chartData, plannedDays, actualDays, actualValue, lastActualDate, plannedValueToDate } =
+		determineChartData(target, targetEntries, absenceEntries, absencePlans, holidayData);
 
-	let targetValueToDate =
-		chartData.find((data) => data.date.toISOString().slice(0, 10) === getISODateString(new Date()))
-			?.planned ?? chartData[chartData.length - 1].planned;
+	let plannedValuePerDay = plannedValueToDate
+		? Math.round((plannedValueToDate / actualDays) * 100) / 100
+		: 0;
+
+	let actualValuePerDay = Math.round((actualValue / actualDays) * 100) / 100;
+
+	let requiredValuePerDay =
+		Math.round(((target.targetValue - actualValue) / (plannedDays - actualDays)) * 100) / 100;
 </script>
 
 <section class="bg-accent flex min-h-screen items-center justify-center">
@@ -39,8 +49,12 @@
 					dein Arbeitsjahr zu gehen.
 				</p>
 				<div class="flex gap-4">
-					<Button size="lg" variant="secondary" href="/login">Login</Button>
-					<Button size="lg" variant="default" href="/register">Kostenlos starten</Button>
+					{#if !data.user}
+						<Button size="lg" variant="secondary" href="/login">Login</Button>
+						<Button size="lg" variant="default" href="/register">Kostenlos starten</Button>
+					{:else}
+						<Button size="lg" variant="default" href="/targets">Zu deinen Zielen</Button>
+					{/if}
 				</div>
 			</Card.Content>
 		</Card.Root>
@@ -50,7 +64,9 @@
 <section class="py-10">
 	<div class="grid grid-cols-1 gap-5">
 		<div>
-			<h2 class="text-2xl text-center font-bold">Interaktive Demo: So sieht HappyHour in Aktion aus</h2>
+			<h2 class="text-center text-2xl font-bold">
+				Interaktive Demo: So sieht HappyHour in Aktion aus
+			</h2>
 		</div>
 		{#snippet headerCard(title: string, value: any, secondary?: any)}
 			<Card.Root class="@container/card">
@@ -68,14 +84,16 @@
 			</Card.Root>
 		{/snippet}
 
-		<div class="mb-5 grid grid-cols-2 gap-3">
-			{@render headerCard('Start', target.startDate)}
-			{@render headerCard('Ende', target.endDate)}
-			{@render headerCard('Plan', targetValueToDate, target.targetValue)}
-			{@render headerCard(
-				'Ist',
-				targetEntries.reduce((acc, entry) => acc + entry.entryValue, 0)
-			)}
+		<div class="mb-5">
+			<TargetHeader
+				{target}
+				{plannedValueToDate}
+				{actualValue}
+				{plannedValuePerDay}
+				{actualValuePerDay}
+				{requiredValuePerDay}
+				{lastActualDate}
+			></TargetHeader>
 		</div>
 		<!-- <div class="flex flex-col items-center justify-center gap-8 p-8"> -->
 		<AreaChart {chartData}></AreaChart>
@@ -97,8 +115,12 @@
 		<div>
 			<p class="mt-6 text-center text-lg">Du willst das auch für dich nutzen?</p>
 			<div class="mt-2 flex justify-center gap-4">
-				<Button size="lg" variant="secondary" href="/login">Login</Button>
-				<Button size="lg" variant="default" href="/register">Kostenlos starten</Button>
+				{#if !data.user}
+					<Button size="lg" variant="secondary" href="/login">Login</Button>
+					<Button size="lg" variant="default" href="/register">Kostenlos starten</Button>
+				{:else}
+					<Button size="lg" variant="default" href="/targets">Zu deinen Zielen</Button>
+				{/if}
 			</div>
 		</div>
 	</div>
