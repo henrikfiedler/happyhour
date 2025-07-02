@@ -219,12 +219,12 @@ function determineChartData(target: Target, targetEntries: TargetEntry[], absenc
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    const pastWorkdays = days.filter((dateStr) => {
+    /* const pastWorkdays = days.filter((dateStr) => {
         const date = new Date(dateStr);
         // return date <= today && checkIsWorkday(date, target, holidayData, absenceEntries);
         return date <= today && !totalNonWorkingDaysSet.has(getISODateString(date))
     });
-    /* const remainingWorkdays = days.filter((dateStr) => {
+    const remainingWorkdays = days.filter((dateStr) => {
         const date = new Date(dateStr);
         // return date > today && checkIsWorkday(date, target, holidayData, absenceEntries);
         return date > today && !totalNonWorkingDaysSet.has(getISODateString(date))
@@ -271,10 +271,14 @@ function determineChartData(target: Target, targetEntries: TargetEntry[], absenc
             };
         }),
         plannedDays: totalWorkdays,
-        actualDays: pastWorkdays.length,
         actualValue: actualSum,
         lastActualDate,
-        plannedValueToDate
+        plannedValueToDate,
+        actualDays: days.filter((dateStr) => {
+            const date = new Date(dateStr);
+            // return date <= today && checkIsWorkday(date, target, holidayData, absenceEntries);
+            return date <= lastActualDate && !totalNonWorkingDaysSet.has(getISODateString(date))
+        }).length
     };
 }
 
