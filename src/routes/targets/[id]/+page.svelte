@@ -77,6 +77,7 @@
 			data.absencePlans,
 			data.holidayData
 		);
+	console.log('🚀 ~ lastActualDate:', lastActualDate);
 
 	/* let targetValueToDate =
 		chartData.find((data) => getISODateString(data.date) === getISODateString(new Date()))
@@ -86,7 +87,7 @@
 		? Math.round((plannedValueToDate / actualDays) * 100) / 100
 		: 0;
 
-	let actualValuePerDay = Math.round((actualValue / actualDays) * 100) / 100;
+	let actualValuePerDay = actualDays ? Math.round((actualValue / actualDays) * 100) / 100 : 0;
 
 	let requiredValuePerDay =
 		Math.round(((data.target.targetValue - actualValue) / (plannedDays - actualDays)) * 100) / 100;
