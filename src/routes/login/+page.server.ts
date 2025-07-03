@@ -1,21 +1,27 @@
 import type { PageServerLoad } from './$types';
 import { superValidate, setError, fail } from 'sveltekit-superforms';
-import { formSchema } from './schema';
-import { zod } from "sveltekit-superforms/adapters";
+import { zod4 } from "sveltekit-superforms/adapters";
 import { redirect } from '@sveltejs/kit';
 import { getUserFromEmail } from '$lib/server/auth/user';
 import { verifyPasswordHash } from '$lib/server/auth/password';
 import { createSession, generateSessionToken, setSessionTokenCookie } from '$lib/server/auth/session';
+import { loginSchema } from '$lib/schemas';
 
-export const load = (async () => {
+const schema = loginSchema
+
+export const load = (async (event) => {
+    if (event.locals.user) {
+        return redirect(303, '/targets');
+    }
+
     return {
-        form: await superValidate(zod(formSchema)),
+        form: await superValidate(event, zod4(schema)),
     };
 }) satisfies PageServerLoad;
 
 export const actions = {
     default: async (event) => {
-        const form = await superValidate(event, zod(formSchema));
+        const form = await superValidate(event, zod4(schema));
 
         if (!form.valid) {
             return fail(400, {
@@ -38,10 +44,16 @@ export const actions = {
             return setError(form, 'password', 'Invalid password or e-mail.');
         }
 
+
+
         const sessionToken = generateSessionToken();
         const session = await createSession(sessionToken, user.id);
         setSessionTokenCookie(event, sessionToken, session.expiresAt);
 
-        throw redirect(303, '/dashboard');
+        if (!user.emailVerified) {
+            return redirect(303, '/email-verification')
+        }
+
+        return redirect(303, event.url.searchParams.get('redirectTo') ?? '/targets');
     },
 };

@@ -1,12 +1,12 @@
 import { sessionTable } from "../db/schema";
-import type { User, Session } from "../db/schema";
+import type { User, Session, AuthUser } from "$lib/types";
 import { encodeBase32LowerCaseNoPadding, encodeHexLowerCase } from "@oslojs/encoding";
 import { sha256 } from "@oslojs/crypto/sha2";
 import { db } from "../db";
 import { eq } from "drizzle-orm";
 import type { RequestEvent } from "@sveltejs/kit";
 
-type SessionValidationResult = { session: Session; user: User } | { session: null; user: null };
+type SessionValidationResult = { session: Session; user: AuthUser } | { session: null; user: null };
 
 export function generateSessionToken(): string {
     const tokenBytes = new Uint8Array(20);
@@ -16,13 +16,13 @@ export function generateSessionToken(): string {
 }
 
 // export function createSession(token: string, userId: number, flags: SessionFlags): Session {
-export async function createSession(token: string, userId: number): Promise<Session> {
+export async function createSession(token: string, userId: string): Promise<Session> {
     const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
 
     const [session] = await db.insert(sessionTable).values({
         id: sessionId,
         userId,
-        expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30),
+        expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30)
     }).returning()
 
     return session;
@@ -34,7 +34,15 @@ export async function validateSessionToken(token: string): Promise<SessionValida
     const result = await db.query.sessionTable.findFirst({
         where: eq(sessionTable.id, sessionId),
         with: {
-            user: true
+            user: {
+                columns: {
+                    id: true,
+                    email: true,
+                    emailVerified: true,
+                    createdAt: true,
+                    updatedAt: true,
+                }
+            }
         }
     });
 
@@ -61,11 +69,7 @@ WHERE session.id = ?
         expiresAt: result.expiresAt
     }
 
-    const user: User = {
-        id: result.user.id,
-        email: result.user.email,
-        passwordHash: result.user.passwordHash,
-    }
+    const user: AuthUser = result.user
 
     if (Date.now() >= session.expiresAt.getTime()) {
         invalidateSession(sessionId);
@@ -90,7 +94,7 @@ export function invalidateSession(sessionId: string): void {
 
 }
 
-export function invalidateUserSessions(userId: number): void {
+export function invalidateUserSessions(userId: string): void {
     db.delete(sessionTable).where(eq(sessionTable.userId, userId));
 
 }
