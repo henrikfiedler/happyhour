@@ -15,14 +15,14 @@
 	<Card.Header class="px-3 sm:px-6">
 		<Card.Description>
 			{label}<br />
-			{#if value}
+			{#if value !== undefined}
 				<span class="text-xs">
 					bis <LocalDateComponent {date} />
 				</span>
 			{/if}
 		</Card.Description>
 		<Card.Title class="text-lg font-semibold lg:text-2xl">
-			{#if value}
+			{#if value !== undefined}
 				{value.toLocaleString()}
 			{:else}
 				<LocalDateComponent {date} />
