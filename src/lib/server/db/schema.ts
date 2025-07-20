@@ -21,6 +21,7 @@ export const userTable = pgTable("user", {
 	country: varchar("country", { length: 2 }),
 	state: varchar("state", { length: 3 }),
 	region: varchar("region", { length: 10 }),
+	admin: boolean("admin").notNull().default(false)
 
 });
 

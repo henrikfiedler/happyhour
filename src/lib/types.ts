@@ -6,7 +6,7 @@ type PickPartial<T, K extends keyof T> = { [P in K]: Partial<T[P]> };
 export type OrderByType = "asc" | "desc";
 
 export type User = Omit<DBUser, "passwordHash">;
-export type AuthUser = PickPartial<DBUser, 'id' | 'email' | 'emailVerified' | 'createdAt' | 'updatedAt'>
+export type AuthUser = PickPartial<DBUser, 'id' | 'email' | 'emailVerified' | 'createdAt' | 'updatedAt' | 'admin'>
 export type Session = DBSession
 export type EmailVerification = DBEmailVerification
 export type PasswordForgot = DBPasswordForgot
