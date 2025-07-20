@@ -41,6 +41,7 @@ export async function validateSessionToken(token: string): Promise<SessionValida
                     emailVerified: true,
                     createdAt: true,
                     updatedAt: true,
+                    admin: true
                 }
             }
         }
