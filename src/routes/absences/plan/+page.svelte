@@ -118,3 +118,11 @@
 	</Form.Field>
 	<SubmitButton {submitting}>Speichern</SubmitButton>
 </form>
+
+<Separator class="my-5"></Separator>
+
+<h2 class="text-2xl">AI-Assistent</h2>
+
+<form action="?/createAISuggestion" method="post" use:enhance>
+	<Button type="submit">AI</Button>
+</form>
