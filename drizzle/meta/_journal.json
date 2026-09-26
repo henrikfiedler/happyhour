@@ -29,6 +29,20 @@
       "when": 1753122763822,
       "tag": "0003_chubby_warbound",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1790112541323,
+      "tag": "0004_easy_photon",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1790453862450,
+      "tag": "0005_skinny_alice",
+      "breakpoints": true
     }
   ]
 }

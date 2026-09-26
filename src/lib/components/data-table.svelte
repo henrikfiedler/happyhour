@@ -11,9 +11,21 @@
 		table: ReturnType<typeof createSvelteTable<T>>;
 		columns: ColumnDef<T>[];
 		withDeleteDialog?: boolean;
+		deleteAction?: string;
+		deleteButtonLabel?: string;
+		deleteDialogTitle?: string;
+		deleteItemLabel?: string;
 	}
 
-	let { table, columns, withDeleteDialog }: Props = $props();
+	let {
+		table,
+		columns,
+		withDeleteDialog,
+		deleteAction = '?/deleteSelected',
+		deleteButtonLabel = 'Ausgewählte Löschen',
+		deleteDialogTitle = 'Einträge wirklich löschen?',
+		deleteItemLabel = 'Einträge werden gelöscht.'
+	}: Props = $props();
 
 	let dialogOpen = $state(false);
 	let deleteSubmitting = $state(false);
@@ -26,14 +38,14 @@
 		onclick={() => (dialogOpen = !dialogOpen)}
 		disabled={!table.getSelectedRowModel().rows.length}
 	>
-		Ausgewählte Löschen
+		{deleteButtonLabel}
 	</Button>
 
 	<Dialog.Root bind:open={dialogOpen}>
 		<!-- <Dialog.Trigger>Open</Dialog.Trigger> -->
 		<Dialog.Content>
 			<form
-				action="?/deleteSelected"
+				action={deleteAction}
 				method="post"
 				use:enhance={() => {
 					deleteSubmitting = true;
@@ -48,11 +60,11 @@
 				}}
 			>
 				<Dialog.Header>
-					<Dialog.Title>Einträge wirklich löschen?</Dialog.Title>
+					<Dialog.Title>{deleteDialogTitle}</Dialog.Title>
 					<Dialog.Description />
 				</Dialog.Header>
 				<p>
-					{table.getSelectedRowModel().rows.length} Einträge werden gelöscht.
+					{table.getSelectedRowModel().rows.length} {deleteItemLabel}
 				</p>
 				{#each table.getSelectedRowModel().rows as row (row.id)}
 					<input type="hidden" name="deleteId" value={row.original.id} />
