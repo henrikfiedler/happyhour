@@ -12,6 +12,8 @@
 	import Pill from '@lucide/svelte/icons/pill';
 	import Plane from '@lucide/svelte/icons/plane';
 	import House from '@lucide/svelte/icons/house';
+	import Parasol from '@lucide/svelte/icons/parasol';
+	import Factory from '@lucide/svelte/icons/factory';
 	import { ModeWatcher } from 'mode-watcher';
 
 	import type { LayoutProps } from './$types';
@@ -65,6 +67,14 @@
 						})()
 					]
 				: []),
+				(() => {
+				return buildPath({
+					title: 'Arbeitstage',
+					url: '/workdays',
+					icon: Factory,
+					activeType: 'exact'
+				});
+			})(),
 			(() => {
 				return buildPath({
 					title: 'Feiertage',
@@ -77,7 +87,7 @@
 				return buildPath({
 					title: 'Abwesenheiten',
 					url: '/absences',
-					icon: House,
+					icon: Parasol,
 					activeType: 'include'
 				});
 			})()

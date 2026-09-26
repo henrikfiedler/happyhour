@@ -1,9 +1,9 @@
-import { pgTable, text, timestamp, serial, boolean, date, integer, varchar, uuid, decimal, pgEnum, real } from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, serial, boolean, date, integer, varchar, uuid, decimal, pgEnum, real, unique } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 import type { InferInsertModel, InferSelectModel } from "drizzle-orm";
 import { createInsertSchema } from "drizzle-zod";
 import type { AnyPgColumn } from "drizzle-orm/pg-core";
-import { absenceEntryTypesArray, absenceEntryValues, type AbsenceEntryType } from "../../types";
+import { absenceEntryValues, workdayValues } from "../../types";
 
 export const userTable = pgTable("user", {
 	id: uuid("id").primaryKey().defaultRandom(),
@@ -36,6 +36,8 @@ export const usersRelations = relations(userTable, ({ many, one }) => ({
 		relationName: 'favoriteTarget'
 	}),
 	absenceEntries: many(absenceEntryTable),
+	workdays: many(workdayTable),
+	apiKeys: many(apiKeyTable),
 }));
 
 export const sessionTable = pgTable("session", {
@@ -194,6 +196,48 @@ export const absenceRelations = relations(absenceEntryTable, ({ one, many }) => 
 	}),
 }));
 
+export const workdayTypeEnum = pgEnum('workday_type', workdayValues);
+
+export const workdayTable = pgTable("workday", {
+	id: uuid("id").primaryKey().defaultRandom(),
+	userId: uuid("user_id")
+		.notNull()
+		.references(() => userTable.id, { onDelete: 'cascade' }),
+	date: date("date", { mode: "date" }).notNull(),
+	type: workdayTypeEnum("type").notNull(),
+	createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+	updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+}, (table) => [
+	unique('workday_user_id_date_unique').on(table.userId, table.date),
+]);
+
+export const workdayRelations = relations(workdayTable, ({ one }) => ({
+	user: one(userTable, {
+		fields: [workdayTable.userId],
+		references: [userTable.id]
+	}),
+}));
+
+export const apiKeyTable = pgTable("api_key", {
+	id: uuid("id").primaryKey().defaultRandom(),
+	userId: uuid("user_id")
+		.notNull()
+		.references(() => userTable.id, { onDelete: 'cascade' }),
+	name: varchar("name", { length: 50 }).notNull(),
+	keyPrefix: varchar("key_prefix", { length: 16 }).notNull(),
+	keyHash: text("key_hash").notNull().unique(),
+	lastUsedAt: timestamp("last_used_at", { withTimezone: true }),
+	createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+	revokedAt: timestamp("revoked_at", { withTimezone: true }),
+});
+
+export const apiKeyRelations = relations(apiKeyTable, ({ one }) => ({
+	user: one(userTable, {
+		fields: [apiKeyTable.userId],
+		references: [userTable.id]
+	}),
+}));
+
 export type DBUser = InferSelectModel<typeof userTable>;
 export type DBSession = InferSelectModel<typeof sessionTable>;
 export type DBEmailVerification = InferSelectModel<typeof emailVerificationTable>;
@@ -202,5 +246,7 @@ export type DBTarget = InferSelectModel<typeof targetTable>;
 export type DBTargetEntry = InferSelectModel<typeof targetEntryTable>;
 export type DBAbsencePlan = InferSelectModel<typeof absencePlanTable>;
 export type DBAbsenceEntry = InferSelectModel<typeof absenceEntryTable>;
+export type DBWorkday = InferSelectModel<typeof workdayTable>;
+export type DBApiKey = InferSelectModel<typeof apiKeyTable>;
 
 // export const targetInsertSchema = createInsertSchema(targetTable)

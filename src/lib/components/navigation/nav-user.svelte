@@ -4,6 +4,7 @@
 	import ChevronsUpDownIcon from '@lucide/svelte/icons/chevrons-up-down';
 	import CreditCardIcon from '@lucide/svelte/icons/credit-card';
 	import LogOutIcon from '@lucide/svelte/icons/log-out';
+	import KeyRoundIcon from '@lucide/svelte/icons/key-round';
 	import SparklesIcon from '@lucide/svelte/icons/sparkles';
 
 	import * as Avatar from '$lib/components/ui/avatar/index.js';
@@ -81,6 +82,10 @@
 						<DropdownMenu.Item>
 							<BadgeCheckIcon />
 							<a href="/account">Account</a>
+						</DropdownMenu.Item>
+						<DropdownMenu.Item>
+							<KeyRoundIcon />
+							<a href="/api-keys">API-Keys</a>
 						</DropdownMenu.Item>
 						<!-- <DropdownMenu.Item>
 							<CreditCardIcon />
