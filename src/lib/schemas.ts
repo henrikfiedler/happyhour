@@ -147,6 +147,15 @@ const absenceEntryInsertSchema = z.object({
   };
 })
 
+const workdayInsertSchema = z.object({
+  date: z.coerce.date(),
+  type: z.enum(['office', 'homeOffice', 'customer']),
+});
+
+const apiKeyCreateSchema = z.object({
+  name: z.string().trim().min(1).max(50),
+});
+
 export {
   loginSchema,
   registerSchema,
@@ -156,6 +165,8 @@ export {
   holidaySchema,
   absencePlanInsertSchema,
   absenceEntryInsertSchema,
+	workdayInsertSchema,
+	apiKeyCreateSchema,
   forgotPasswortRequestSchema,
   forgotPasswortSubmitSchema
 };

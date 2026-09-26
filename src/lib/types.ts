@@ -1,4 +1,4 @@
-import type { DBUser, DBSession, DBTarget, DBTargetEntry, DBAbsenceEntry, DBEmailVerification, DBPasswordForgot, DBAbsencePlan } from "./server/db/schema";
+import type { DBUser, DBSession, DBTarget, DBTargetEntry, DBAbsenceEntry, DBEmailVerification, DBPasswordForgot, DBAbsencePlan, DBWorkday, DBApiKey } from "./server/db/schema";
 
 // type PickPartial<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 type PickPartial<T, K extends keyof T> = { [P in K]: Partial<T[P]> };
@@ -14,6 +14,8 @@ export type Target = DBTarget
 export type TargetEntry = DBTargetEntry
 export type AbsencePlan = DBAbsencePlan
 export type AbsenceEntry = DBAbsenceEntry
+export type Workday = DBWorkday
+export type ApiKey = Omit<DBApiKey, 'keyHash'>
 export type HolidayData = PickPartial<DBUser, 'country' | 'state' | 'region'>;
 
 export const absenceEntryTypesArray: { value: string, label: string }[] = [
@@ -35,6 +37,17 @@ export type AbsenceEntryType = typeof absenceEntryTypesArray[number]['value'];
 
 export const absenceEntryValues: [AbsenceEntryType, ...AbsenceEntryType[]] =
 	absenceEntryTypesArray.map(e => e.value) as [AbsenceEntryType, ...AbsenceEntryType[]];
+
+export const workdayTypesArray = [
+	{ value: 'office', label: 'Büro' },
+	{ value: 'homeOffice', label: 'Home Office' },
+	{ value: 'customer', label: 'Kunde' }
+] as const;
+
+export type WorkdayType = typeof workdayTypesArray[number]['value'];
+
+export const workdayValues: [WorkdayType, ...WorkdayType[]] =
+	workdayTypesArray.map((workday) => workday.value) as [WorkdayType, ...WorkdayType[]];
 
 
 
